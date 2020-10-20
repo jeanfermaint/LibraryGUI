@@ -1,11 +1,12 @@
 <RCC>
   <qresource prefix="Icons">
-    <file>borrower.png</file>
+    <file>booksIcon1.png</file>
+    <file>usersIcon.jpg</file>
     <file>books.png</file>
-    <file>BookIcon.jpg</file>
+    <file>flat.png</file>
     <file>SettingsIcon.png</file>
     <file>themes.png</file>
     <file>todayIcon.png</file>
-    <file>usersIcon.jpg</file>
+    <file>borrower.png</file>
   </qresource>
 </RCC>

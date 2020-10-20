@@ -49,6 +49,11 @@ class MainApp(QMainWindow, ui):
         self.pushButton_13.clicked.connect(self.Login)
         self.pushButton_12.clicked.connect(self.Edit_User)
 
+        self.pushButton_18.clicked.connect(self.Dark_Orange_Theme)
+        self.pushButton_17.clicked.connect(self.Dark_Blue_Theme)
+        self.pushButton_16.clicked.connect(self.Dark_Gray_Theme)
+        self.pushButton_19.clicked.connect(self.QDark_Theme)
+
 
     def Show_Themes(self):
         self.groupBox_2.show()
@@ -260,7 +265,7 @@ class MainApp(QMainWindow, ui):
 
             else:
                 self.statusBar().showMessage('Enter Valid Username & Password')
-                QMessageBox.warning(self,'Invalid User or Password', "Please enter a valid username and password.",QMessageBox.Close,)
+                QMessageBox.warning(self,'Invalid User or Password', "Please enter a valid username and password.",QMessageBox.Close,QMessageBox.Close)
 
     def Edit_User(self):
 
@@ -281,13 +286,13 @@ class MainApp(QMainWindow, ui):
             print(phone)
             print(password)
 
-            self.cur.execute(''''
-                UPDATE user SET user_name=%s , user_email=%s , user_phone=%s , user_password
+            self.cur.execute('''
+                UPDATE user SET user_name=%s , user_email=%s , user_phone=%s , user_password=%s
                 WHERE user_name=%s
                 ''', (username,email,phone,password,original_name))
 
             self.db.commit()
-            QMessageBox.Information(self,'Message',"User Data Updated Successfully",QMessageBox.Ok,QMessageBox.Ok)
+            QMessageBox.information(self,'Message',"User Data Updated Successfully",QMessageBox.Ok,QMessageBox.Ok)
             self.statusBar().showMessage('User Data Updated Successfully')
 
         else:
@@ -405,6 +410,31 @@ class MainApp(QMainWindow, ui):
 
     def Show_Publish_Box(self):
         pass
+
+
+
+   ########################################
+    ###########  UI Themes ###############
+
+    def Dark_Blue_Theme(self):
+        style = open('themes/darkblue.css', 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+
+    def Dark_Gray_Theme(self):
+        style = open('themes/darkgray.css', 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+
+    def Dark_Orange_Theme(self):
+        style = open('themes/darkorange.css', 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+
+    def QDark_Theme(self):
+        style = open('themes/qdark.css', 'r')
+        style = style.read()
+        self.setStyleSheet(style)
 
 
 def main():

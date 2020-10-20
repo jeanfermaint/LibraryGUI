@@ -27,7 +27,7 @@
      <rect>
       <x>20</x>
       <y>50</y>
-      <width>75</width>
+      <width>51</width>
       <height>41</height>
      </rect>
     </property>
@@ -50,7 +50,7 @@
      <rect>
       <x>20</x>
       <y>100</y>
-      <width>75</width>
+      <width>51</width>
       <height>41</height>
      </rect>
     </property>
@@ -66,8 +66,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>60</width>
-      <height>50</height>
+      <width>45</width>
+      <height>45</height>
      </size>
     </property>
    </widget>
@@ -76,7 +76,7 @@
      <rect>
       <x>20</x>
       <y>150</y>
-      <width>75</width>
+      <width>51</width>
       <height>41</height>
      </rect>
     </property>
@@ -85,12 +85,12 @@
     </property>
     <property name="icon">
      <iconset resource="Icons/icon.qrc">
-      <normaloff>:/Icons/usersIcon.jpg</normaloff>:/Icons/usersIcon.jpg</iconset>
+      <normaloff>:/Icons/booksIcon1.png</normaloff>:/Icons/booksIcon1.png</iconset>
     </property>
     <property name="iconSize">
      <size>
-      <width>55</width>
-      <height>55</height>
+      <width>35</width>
+      <height>35</height>
      </size>
     </property>
    </widget>
@@ -99,7 +99,7 @@
      <rect>
       <x>20</x>
       <y>300</y>
-      <width>75</width>
+      <width>51</width>
       <height>41</height>
      </rect>
     </property>
@@ -122,7 +122,7 @@
      <rect>
       <x>20</x>
       <y>250</y>
-      <width>75</width>
+      <width>51</width>
       <height>41</height>
      </rect>
     </property>
@@ -150,7 +150,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <property name="iconSize">
      <size>
@@ -1743,7 +1743,7 @@
      <rect>
       <x>20</x>
       <y>200</y>
-      <width>75</width>
+      <width>51</width>
       <height>41</height>
      </rect>
     </property>
@@ -1755,12 +1755,12 @@
     </property>
     <property name="icon">
      <iconset resource="Icons/icon.qrc">
-      <normaloff>:/Icons/borrower.png</normaloff>:/Icons/borrower.png</iconset>
+      <normaloff>:/Icons/usersIcon.jpg</normaloff>:/Icons/usersIcon.jpg</iconset>
     </property>
     <property name="iconSize">
      <size>
-      <width>30</width>
-      <height>30</height>
+      <width>45</width>
+      <height>45</height>
      </size>
     </property>
    </widget>
@@ -1771,9 +1771,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>330</y>
-      <width>241</width>
-      <height>201</height>
+      <y>380</y>
+      <width>391</width>
+      <height>141</height>
      </rect>
     </property>
     <property name="font">
@@ -1793,16 +1793,16 @@
     <widget class="QLabel" name="label_26">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>0</y>
-       <width>111</width>
+       <x>120</x>
+       <y>10</y>
+       <width>141</width>
        <height>31</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Segoe UI Semibold</family>
-       <pointsize>10</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="text">
@@ -1812,8 +1812,8 @@
     <widget class="QPushButton" name="pushButton_16">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>30</y>
+       <x>190</x>
+       <y>50</y>
        <width>81</width>
        <height>71</height>
       </rect>
@@ -1824,14 +1824,14 @@
       </font>
      </property>
      <property name="text">
-      <string>Bright</string>
+      <string>Gray</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_17">
      <property name="geometry">
       <rect>
-       <x>130</x>
-       <y>30</y>
+       <x>280</x>
+       <y>50</y>
        <width>81</width>
        <height>71</height>
       </rect>
@@ -1848,8 +1848,8 @@
     <widget class="QPushButton" name="pushButton_18">
      <property name="geometry">
       <rect>
-       <x>130</x>
-       <y>110</y>
+       <x>10</x>
+       <y>50</y>
        <width>81</width>
        <height>71</height>
       </rect>
@@ -1866,8 +1866,8 @@
     <widget class="QPushButton" name="pushButton_19">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>110</y>
+       <x>100</x>
+       <y>50</y>
        <width>81</width>
        <height>71</height>
       </rect>
@@ -1878,17 +1878,24 @@
       </font>
      </property>
      <property name="text">
-      <string>Light</string>
+      <string>Dark Blue</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_20">
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>90</y>
+       <x>370</x>
+       <y>40</y>
        <width>21</width>
        <height>41</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="text">
       <string>&lt;</string>
