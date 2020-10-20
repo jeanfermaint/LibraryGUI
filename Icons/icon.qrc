@@ -2,13 +2,8 @@
   <qresource prefix="Icons">
     <file>borrower.png</file>
     <file>books.png</file>
-    <file>books.png</file>
-    <file>booksStack.png</file>
-    <file>theme1.png</file>
-    <file>book2.jpg</file>
     <file>BookIcon.jpg</file>
     <file>SettingsIcon.png</file>
-    <file>booksIcon1.png</file>
     <file>themes.png</file>
     <file>todayIcon.png</file>
     <file>usersIcon.jpg</file>

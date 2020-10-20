@@ -6,7 +6,7 @@ import MySQLdb
 
 from PyQt5.uic import loadUiType
 
-print('Hello from the future')
+
 ui,_ = loadUiType('testing.ui')
 
 class MainApp(QMainWindow, ui):
@@ -259,7 +259,7 @@ class MainApp(QMainWindow, ui):
                 self.lineEdit_16.setText(row[2])
 
             else:
-                #self.statusBar().showMessage('Enter Valid Username & Password')
+                self.statusBar().showMessage('Enter Valid Username & Password')
                 QMessageBox.warning(self,'Invalid User or Password', "Please enter a valid username and password.",QMessageBox.Close,)
 
     def Edit_User(self):
@@ -292,7 +292,7 @@ class MainApp(QMainWindow, ui):
 
         else:
             QMessageBox.warning(self,'Invalid Password', "Enter a valid Password twice. Please try again.",
-                                QMessageBox.Close,QMessageBox.Close)
+                                QMessageBox.Close,)
             print('Please enter a valid Password')
 
     ################################################
