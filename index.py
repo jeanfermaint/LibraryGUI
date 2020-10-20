@@ -6,6 +6,7 @@ import MySQLdb
 
 from PyQt5.uic import loadUiType
 
+print('Hello from the future')
 ui,_ = loadUiType('testing.ui')
 
 class MainApp(QMainWindow, ui):
