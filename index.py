@@ -196,19 +196,95 @@ class MainApp(QMainWindow, ui):
     ################## Borrowers ###################
 
     def Show_All_Borrowers(self):
-        pass
+        self.db = MySQLdb.connect(host='localhost', user='lcs', password='root', db='library')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''
+            SELECT borrower_name , borrower_type , borrower_email , borrower_phone FROM borrower
+        ''')
+        data = self.cur.fetchall()
+
+        print(data)
+        self.tableWidget_5.setRowCount(0)
+        self.tableWidget_5.insertRow(0)
+
+        for row, form in enumerate(data):
+            for column, item in enumerate(form):
+                self.tableWidget_5.setItem(row, column, QTableWidgetItem(str(item)))
+                column += 1
+
+            row_pos = self.tableWidget_5.rowCount()
+            self.tableWidget_5.insertRow(row_pos)
+
+        self.db.close()
 
     def Add_New_Borrower(self):
-        pass
+        borrower_name = self.lineEdit_28.text()
+        borrower_email = self.lineEdit_29.text()
+        borrower_phone = self.lineEdit_30.text()
+
+        self.db = MySQLdb.connect(host='localhost', user='lcs', password='root', db='library')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''
+                   INSERT INTO borrower(borrower_name , borrower_email , borrower_phone)
+                   VALUES (%s , %s , %s)
+               ''', (borrower_name, borrower_email, borrower_phone))
+        self.db.commit()
+        self.db.close()
+        self.statusBar().showMessage('New Borrower Added')
+        self.Show_All_Borrowers()
 
     def Search_Borrower(self):
-        pass
+        borrower_ID = self.lineEdit_41.text()
+
+        self.db = MySQLdb.connect(host='localhost', user='lcs', password='root', db='library')
+        self.cur = self.db.cursor()
+
+        sql = ''' SELECT * FROM borrower WHERE borrower_ID = %s '''
+        self.cur.execute(sql, [(borrower_ID)])
+        data = self.cur.fetchone()
+        print(data)
+
+        self.lineEdit_37.setText(data[0])
+        self.lineEdit_34.setText(data[1])
+        self.lineEdit_36.setText(data[2])
+        self.lineEdit_35.setText(data[3])
 
     def Edit_Borrower(self):
-        pass
+        original_borrower_ID = self.lineEdit_41.text()
+        borrower_name = self.lineEdit_37.text()
+        borrower_email = self.lineEdit_34.text()
+        borrower_phone = self.lineEdit_36.text()
+        borrower_ID = self.lineEdit_35.text()
+
+        self.db = MySQLdb.connect(host='localhost' , user='root' , password ='toor' , db='library')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''
+            UPDATE borrower SET borrower_name = %s , borrower_email = %s , borrower_phone = %s , borrower_ID = %s
+            WHERE borrower_ID = %s''', (borrower_name,borrower_email,borrower_phone,borrower_ID,original_borrower_ID))
+        self.db.commit()
+        self.db.close()
+        self.statusBar().showMessage('Borrower Data Updated')
+        self.Show_All_Borrowers()
 
     def Delete_Borrower(self):
-        pass
+        borrower_ID = self.lineEdit_41.text()
+
+        warning = QMessageBox.warning(self, 'Delete Borrower', "Delete Borrower?", QMessageBox.Yes | QMessageBox.No)
+
+        if warning == QMessageBox.Yes:
+            self.db = MySQLdb.connect(host='localhost', user='lcs', password='root', db='library')
+            self.cur = self.db.cursor()
+
+            sql = ''' DELETE FROM borrower WHERE borrower_ID = %s '''
+            self.cur.execute(sql, [(borrower_ID)])
+
+            self.db.commit()
+            self.db.close()
+            self.statusBar().showMessage('Borrower Deleted')
+            self.Show_All_Borrowers()
 
 
     ################################################

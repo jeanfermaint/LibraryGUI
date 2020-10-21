@@ -1801,8 +1801,6 @@
       <font>
        <family>Segoe UI Semibold</family>
        <pointsize>12</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -1821,9 +1819,6 @@
      <property name="font">
       <font>
        <family>Segoe UI Semibold</family>
-       <pointsize>8</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -1842,9 +1837,6 @@
      <property name="font">
       <font>
        <family>Segoe UI Semibold</family>
-       <pointsize>8</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -1863,9 +1855,6 @@
      <property name="font">
       <font>
        <family>Segoe UI Semibold</family>
-       <pointsize>8</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -1884,9 +1873,6 @@
      <property name="font">
       <font>
        <family>Segoe UI Semibold</family>
-       <pointsize>8</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -1904,7 +1890,6 @@
      </property>
      <property name="font">
       <font>
-       <family>Segoe UI Semibold</family>
        <pointsize>12</pointsize>
        <weight>75</weight>
        <bold>true</bold>
@@ -1915,6 +1900,7 @@
      </property>
     </widget>
    </widget>
+   <zorder>pushButton_2</zorder>
    <zorder>pushButton</zorder>
    <zorder>pushButton_3</zorder>
    <zorder>pushButton_5</zorder>
@@ -1922,7 +1908,6 @@
    <zorder>tabWidget</zorder>
    <zorder>pushButton_21</zorder>
    <zorder>groupBox_2</zorder>
-   <zorder>pushButton_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
