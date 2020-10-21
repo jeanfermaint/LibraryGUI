@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>810</width>
-    <height>579</height>
+    <height>583</height>
    </rect>
   </property>
   <property name="font">
    <font>
     <family>Segoe UI Semibold</family>
-    <pointsize>9</pointsize>
+    <pointsize>10</pointsize>
     <weight>75</weight>
     <bold>true</bold>
    </font>
@@ -25,9 +25,9 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>50</y>
-      <width>51</width>
+      <width>71</width>
       <height>41</height>
      </rect>
     </property>
@@ -35,11 +35,7 @@
      <bool>false</bool>
     </property>
     <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="Icons/icon.qrc">
-      <normaloff>:/Icons/todayIcon.png</normaloff>:/Icons/todayIcon.png</iconset>
+     <string>Librarian</string>
     </property>
     <property name="iconSize">
      <size>
@@ -51,26 +47,30 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>100</y>
-      <width>51</width>
+      <width>71</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI Semibold</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
     <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="Icons/icon.qrc">
-      <normaloff>:/Icons/booksIcon1-.png</normaloff>:/Icons/booksIcon1-.png</iconset>
+     <string>Books</string>
     </property>
     <property name="iconSize">
      <size>
-      <width>35</width>
-      <height>35</height>
+      <width>42</width>
+      <height>42</height>
      </size>
     </property>
     <property name="autoDefault">
@@ -80,19 +80,27 @@
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>150</y>
-      <width>51</width>
+      <width>71</width>
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI Semibold</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="text">
-     <string/>
+     <string>User</string>
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>37</width>
+      <height>37</height>
      </size>
     </property>
    </widget>
@@ -100,7 +108,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>300</y>
+      <y>350</y>
       <width>51</width>
       <height>41</height>
      </rect>
@@ -123,7 +131,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>250</y>
+      <y>300</y>
       <width>51</width>
       <height>41</height>
      </rect>
@@ -151,8 +159,16 @@
       <height>511</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI Semibold</family>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <property name="iconSize">
      <size>
@@ -172,6 +188,14 @@
         <width>641</width>
         <height>341</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Segoe UI Semibold</family>
+        <pointsize>9</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <column>
        <property name="text">
@@ -1202,7 +1226,7 @@
           </rect>
          </property>
          <property name="text">
-          <string>Borrower Name</string>
+          <string>Borrower ID</string>
          </property>
         </widget>
         <widget class="QPushButton" name="pushButton_27">
@@ -1242,7 +1266,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>50</y>
+         <y>40</y>
          <width>61</width>
          <height>16</height>
         </rect>
@@ -1255,7 +1279,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>100</y>
+         <y>90</y>
          <width>61</width>
          <height>16</height>
         </rect>
@@ -1268,7 +1292,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>150</y>
+         <y>140</y>
          <width>101</width>
          <height>16</height>
         </rect>
@@ -1281,7 +1305,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>200</y>
+         <y>190</y>
          <width>91</width>
          <height>16</height>
         </rect>
@@ -1294,7 +1318,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>70</y>
+         <y>60</y>
          <width>261</width>
          <height>20</height>
         </rect>
@@ -1304,7 +1328,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>120</y>
+         <y>110</y>
          <width>261</width>
          <height>20</height>
         </rect>
@@ -1317,7 +1341,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>170</y>
+         <y>160</y>
          <width>261</width>
          <height>20</height>
         </rect>
@@ -1330,7 +1354,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>220</y>
+         <y>210</y>
          <width>261</width>
          <height>20</height>
         </rect>
@@ -1340,7 +1364,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>270</y>
+         <y>260</y>
          <width>261</width>
          <height>20</height>
         </rect>
@@ -1350,7 +1374,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>250</y>
+         <y>240</y>
          <width>81</width>
          <height>16</height>
         </rect>
@@ -1363,7 +1387,7 @@
        <property name="geometry">
         <rect>
          <x>110</x>
-         <y>320</y>
+         <y>330</y>
          <width>75</width>
          <height>23</height>
         </rect>
@@ -1405,7 +1429,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>100</y>
+         <y>110</y>
          <width>101</width>
          <height>16</height>
         </rect>
@@ -1418,7 +1442,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>60</y>
+         <y>70</y>
          <width>61</width>
          <height>16</height>
         </rect>
@@ -1431,7 +1455,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>20</y>
+         <y>30</y>
          <width>61</width>
          <height>16</height>
         </rect>
@@ -1444,7 +1468,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>140</y>
+         <y>150</y>
          <width>91</width>
          <height>16</height>
         </rect>
@@ -1457,7 +1481,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>80</y>
+         <y>90</y>
          <width>261</width>
          <height>20</height>
         </rect>
@@ -1470,7 +1494,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>160</y>
+         <y>170</y>
          <width>261</width>
          <height>20</height>
         </rect>
@@ -1480,7 +1504,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>120</y>
+         <y>130</y>
          <width>261</width>
          <height>20</height>
         </rect>
@@ -1493,7 +1517,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>40</y>
+         <y>50</y>
          <width>261</width>
          <height>20</height>
         </rect>
@@ -1503,7 +1527,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>180</y>
+         <y>190</y>
          <width>81</width>
          <height>16</height>
         </rect>
@@ -1516,7 +1540,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>200</y>
+         <y>210</y>
          <width>261</width>
          <height>20</height>
         </rect>
@@ -1526,7 +1550,7 @@
        <property name="geometry">
         <rect>
          <x>100</x>
-         <y>230</y>
+         <y>240</y>
          <width>75</width>
          <height>23</height>
         </rect>
@@ -1743,11 +1767,19 @@
    <widget class="QPushButton" name="pushButton_21">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>200</y>
-      <width>51</width>
+      <width>71</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI Semibold</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="toolTipDuration">
      <number>-11</number>
@@ -1756,7 +1788,7 @@
      <bool>true</bool>
     </property>
     <property name="text">
-     <string/>
+     <string>Borrower</string>
     </property>
     <property name="iconSize">
      <size>
@@ -1801,6 +1833,8 @@
       <font>
        <family>Segoe UI Semibold</family>
        <pointsize>12</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -1819,6 +1853,9 @@
      <property name="font">
       <font>
        <family>Segoe UI Semibold</family>
+       <pointsize>8</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -1837,6 +1874,9 @@
      <property name="font">
       <font>
        <family>Segoe UI Semibold</family>
+       <pointsize>8</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -1855,6 +1895,9 @@
      <property name="font">
       <font>
        <family>Segoe UI Semibold</family>
+       <pointsize>8</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -1873,6 +1916,9 @@
      <property name="font">
       <font>
        <family>Segoe UI Semibold</family>
+       <pointsize>8</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -1890,6 +1936,7 @@
      </property>
      <property name="font">
       <font>
+       <family>Segoe UI Semibold</family>
        <pointsize>12</pointsize>
        <weight>75</weight>
        <bold>true</bold>
@@ -1900,6 +1947,25 @@
      </property>
     </widget>
    </widget>
+   <widget class="QPushButton" name="pushButton_28">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>250</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Logout</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+   </widget>
    <zorder>pushButton_2</zorder>
    <zorder>pushButton</zorder>
    <zorder>pushButton_3</zorder>
@@ -1908,6 +1974,7 @@
    <zorder>tabWidget</zorder>
    <zorder>pushButton_21</zorder>
    <zorder>groupBox_2</zorder>
+   <zorder>pushButton_28</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -1915,7 +1982,7 @@
      <x>0</x>
      <y>0</y>
      <width>810</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

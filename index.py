@@ -9,6 +9,41 @@ from PyQt5.uic import loadUiType
 
 ui,_ = loadUiType('testing.ui')
 
+login,_ = loadUiType('login.ui')
+
+class Main_Login(QWidget, login):
+    def __init__(self):
+        QWidget.__init__(self)
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.handle_Login)
+        theme = open('themes/darkorange.css','r')
+        theme = theme.read()
+        self.setStyleSheet(theme)
+
+    def handle_Login(self):
+        self.db = MySQLdb.connect(host='localhost',db='library',user='lcs',password='root')
+        self.cur = self.db.cursor()
+
+        username = self.lineEdit.text()
+        password = self.leneEdit_2.text()
+
+        self.cur.execute('''
+            SELECT * FROM user WHERE user_name=%s and user_password=%s
+            ''',(username,password))
+        found = self.cur.fetchone()
+        print(found)
+
+        if found:
+            print('User Match')
+            self.statusBar().showMessage('Valid Username & Password')
+            self.window_2 = MainApp()
+            self.close()
+            self.window_2.show()
+
+        else:
+            self.QMessageBox.warning(self, 'Wrong Username & Password',"Enter a valid Username & Password", QMessageBox.close(),QMessageBox.close())
+            self.label.setText('Enter a valid Username & Password')
+
 class MainApp(QMainWindow, ui):
     def __init__(self):
         QMainWindow.__init__(self)
@@ -322,25 +357,25 @@ class MainApp(QMainWindow, ui):
         username = self.lineEdit_17.text()
         password = self.lineEdit_18.text()
 
-        sql = '''SELECT * FROM user'''
+        self.cur.execute('''
+            SELECT * FROM user WHERE user_name=%s and user_password=%s
+            ''',(username,password))
+        found = self.cur.fetchone()
+        print(found)
 
-        self.cur.execute(sql)
-        data = self.cur.fetchall()
+        if found:
+            print('User Match')
+            self.statusBar().showMessage('Valid Username & Password')
+            self.groupBox_5.setEnabled(True)
 
-        for row in data:
-            if username == row[1] and password == row[4]:
-                print('User Match')
-                self.statusBar().showMessage('Valid Username & Password')
-                self.groupBox_5.setEnabled(True)
+            self.lineEdit_11.setText(found[1])
+            self.lineEdit_14.setText(found[4])
+            self.lineEdit_13.setText(found[3])
+            self.lineEdit_16.setText(found[2])
 
-                self.lineEdit_11.setText(row[1])
-                self.lineEdit_14.setText(row[4])
-                self.lineEdit_13.setText(row[3])
-                self.lineEdit_16.setText(row[2])
-
-            #else:
-                #self.statusBar().showMessage('Enter Valid Username & Password')
-                #QMessageBox.warning(self,'Invalid User or Password', "Please enter a valid username and password.",QMessageBox.Close,QMessageBox.Close)
+        else:
+            self.statusBar().showMessage('Enter Valid Username & Password')
+            QMessageBox.warning(self,'Invalid User or Password', "Please enter a valid Username & Password.",QMessageBox.Close,QMessageBox.Close)
 
     def Edit_User(self):
 

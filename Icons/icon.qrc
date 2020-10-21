@@ -1,7 +1,9 @@
 <RCC>
   <qresource prefix="Icons">
+    <file>book.png</file>
+    <file>booksIcon1.png</file>
+    <file>Untitled.png</file>
     <file>SettingsIcon.png</file>
-    <file>booksIcon1-.png</file>
     <file>themes.png</file>
     <file>todayIcon.png</file>
   </qresource>
