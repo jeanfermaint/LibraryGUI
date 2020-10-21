@@ -25,7 +25,7 @@ class Main_Login(QWidget, login):
         self.cur = self.db.cursor()
 
         username = self.lineEdit.text()
-        password = self.leneEdit_2.text()
+        password = self.lineEdit_2.text()
 
         self.cur.execute('''
             SELECT * FROM user WHERE user_name=%s and user_password=%s
@@ -35,13 +35,12 @@ class Main_Login(QWidget, login):
 
         if found:
             print('User Match')
-            self.statusBar().showMessage('Valid Username & Password')
             self.window_2 = MainApp()
             self.close()
             self.window_2.show()
 
         else:
-            self.QMessageBox.warning(self, 'Wrong Username & Password',"Enter a valid Username & Password", QMessageBox.close(),QMessageBox.close())
+            #self.QMessageBox.warning(self, 'Wrong Username & Password',"Enter a valid Username & Password", QMessageBox.close(),QMessageBox.close())
             self.label.setText('Enter a valid Username & Password')
 
 class MainApp(QMainWindow, ui):
@@ -548,7 +547,8 @@ class MainApp(QMainWindow, ui):
 
 def main():
     app = QApplication(sys.argv)
-    window = MainApp()
+    #window = MainApp()
+    window = Main_Login()
     window.show()
     app.exec_()
 
