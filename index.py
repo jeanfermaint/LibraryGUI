@@ -15,6 +15,7 @@ class MainApp(QMainWindow, ui):
         self.setupUi(self)
         self.Handle_UI_Changes()
         self.Handle_Buttons()
+        self.Dark_Orange_Theme()
 
         self.Show_Subject()
         self.Show_Author()
@@ -103,7 +104,6 @@ class MainApp(QMainWindow, ui):
             row_pos = self.tableWidget_4.rowCount()
             self.tableWidget_4.insertRow(row_pos)
 
-        #self.db.close()
 
     def Add_New_Book(self):
 
@@ -238,7 +238,6 @@ class MainApp(QMainWindow, ui):
         else:
             #self.label_29.setText('Please enter a valid password twice')
             QMessageBox.warning(self,'Invalid Password', "Enter a valid password twice. Please try again.",QMessageBox.Close, QMessageBox.Close)
-        #self.db.close()
 
     def Login(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
