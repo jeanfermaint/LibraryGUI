@@ -221,23 +221,23 @@ class MainApp(QMainWindow, ui):
 
         user_name = self.lineEdit_7.text()
         user_password = self.lineEdit_8.text()
-        user_retypepwd = self.lineEdit_9.text()
+        user_retype = self.lineEdit_9.text()
         user_phone = self.lineEdit_10.text()
         user_email = self.lineEdit_15.text()
 
         # checking for matching passwords
-        if user_password == user_retypepwd:
+        if user_password == user_retype:
             self.cur.execute('''
-            INSERT INTO user (user_name, user_email, user_phone, user_password) 
-            VALUES (%s , %s , %s , %s)
+                INSERT INTO user (user_name, user_email, user_phone, user_password) 
+                VALUES (%s , %s , %s , %s)
             ''', (user_name,user_email,user_phone,user_password))
 
             self.db.commit()
             self.statusBar().showMessage('New User Added')
 
         else:
-            #self.label_29.setText('Please enter a valid password twice')
-            QMessageBox.warning(self,'Invalid Password', "Enter a valid password twice. Please try again.",QMessageBox.Close, QMessageBox.Close)
+            self.label_29.setText('Please enter a valid password twice')
+            #QMessageBox.warning(self,'Invalid Password', "Enter a valid password twice. Please try again.",QMessageBox.Close, QMessageBox.Close)
 
     def Login(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
@@ -262,21 +262,21 @@ class MainApp(QMainWindow, ui):
                 self.lineEdit_13.setText(row[3])
                 self.lineEdit_16.setText(row[2])
 
-            else:
-                self.statusBar().showMessage('Enter Valid Username & Password')
-                QMessageBox.warning(self,'Invalid User or Password', "Please enter a valid username and password.",QMessageBox.Close,QMessageBox.Close)
+            #else:
+                #self.statusBar().showMessage('Enter Valid Username & Password')
+                #QMessageBox.warning(self,'Invalid User or Password', "Please enter a valid username and password.",QMessageBox.Close,QMessageBox.Close)
 
     def Edit_User(self):
 
         username = self.lineEdit_11.text()
         password = self.lineEdit_14.text()
-        retypepwd = self.lineEdit_12.text()
+        retype = self.lineEdit_12.text()
         email = self.lineEdit_16.text()
         phone = self.lineEdit_13.text()
 
         original_name = self.lineEdit_17.text()
 
-        if password == retypepwd:
+        if password == retype:
             self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
             self.cur = self.db.cursor()
 
@@ -288,15 +288,14 @@ class MainApp(QMainWindow, ui):
             self.cur.execute('''
                 UPDATE user SET user_name=%s , user_email=%s , user_phone=%s , user_password=%s
                 WHERE user_name=%s
-                ''', (username,email,phone,password,original_name))
+            ''', (username,email,phone,password,original_name))
 
             self.db.commit()
-            QMessageBox.information(self,'Message',"User Data Updated Successfully",QMessageBox.Ok,QMessageBox.Ok)
+            QMessageBox.information(self,'Message',"User Data Updated Successfully", QMessageBox.Ok,QMessageBox.Ok)
             self.statusBar().showMessage('User Data Updated Successfully')
 
         else:
-            QMessageBox.warning(self,'Invalid Password', "Enter a valid Password twice. Please try again.",
-                                QMessageBox.Close,)
+            QMessageBox.warning(self,'Invalid Password', "Enter a valid Password twice. Please try again.", QMessageBox.Close,)
             print('Please enter a valid Password')
 
     ################################################
