@@ -21,10 +21,10 @@ class Main_Login(QWidget, login):
         self.setStyleSheet(theme)
         self.pushButton_2.setStyleSheet(u"QPushButton { border: none;\n"
 "       background-color: #323232;}\n"
-"       QPushButton:hover { background-color: #ffaa00;}")
+"       QPushButton:hover { color: #ffaa00;}")
         self.pushButton_3.setStyleSheet(u"QPushButton { border: none;\n"
-"       background-color: #323232;\n"
-"       QPushButton:hover { background-color: #ffaa00);}")
+"       background-color: #323232;}\n"
+"       QPushButton:hover { color: #ffaa00;}")
 
     def handle_Login(self):
         self.db = MySQLdb.connect(host='localhost',db='library',user='lcs',password='root')
