@@ -446,7 +446,7 @@ QPushButton:hover {
 </string>
               </property>
               <property name="text">
-               <string>Login</string>
+               <string>login</string>
               </property>
               <property name="icon">
                <iconset resource="icons.qrc">
@@ -782,7 +782,7 @@ QPushButton:hover {
                <string notr="true">color: rgb(255, 255, 255);</string>
               </property>
               <property name="text">
-               <string>Welcome to the Login page</string>
+               <string>Welcome to the login page</string>
               </property>
              </widget>
              <widget class="QGroupBox" name="groupBox_4">
@@ -799,7 +799,7 @@ QPushButton:hover {
 border: none;</string>
               </property>
               <property name="title">
-               <string>Login Using Email and Password</string>
+               <string>login Using Email and Password</string>
               </property>
               <widget class="QLineEdit" name="password_2">
                <property name="geometry">
@@ -904,7 +904,7 @@ QPushButton:hover {
 </string>
                </property>
                <property name="text">
-                <string>Login</string>
+                <string>login</string>
                </property>
                <property name="icon">
                 <iconset resource="icons.qrc">
@@ -1940,7 +1940,7 @@ QPushButton:hover {
 border: none;</string>
               </property>
               <property name="title">
-               <string>Login Using Email and Password</string>
+               <string>login Using Email and Password</string>
               </property>
               <widget class="QLineEdit" name="password_3">
                <property name="geometry">
@@ -2045,7 +2045,7 @@ QPushButton:hover {
 </string>
                </property>
                <property name="text">
-                <string>Login</string>
+                <string>login</string>
                </property>
                <property name="icon">
                 <iconset resource="icons.qrc">
@@ -2127,7 +2127,7 @@ QPushButton:hover {
                <string notr="true">color: rgb(255, 255, 255);</string>
               </property>
               <property name="text">
-               <string>Welcome to the Librarian Login page</string>
+               <string>Welcome to the Librarian login page</string>
               </property>
              </widget>
             </widget>

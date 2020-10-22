@@ -168,7 +168,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <property name="iconSize">
      <size>
@@ -226,7 +226,7 @@
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>340</x>
         <y>30</y>
         <width>31</width>
         <height>21</height>
@@ -239,7 +239,7 @@
      <widget class="QComboBox" name="comboBox">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>380</x>
         <y>30</y>
         <width>81</width>
         <height>22</height>
@@ -269,9 +269,9 @@
      <widget class="QPushButton" name="pushButton_6">
       <property name="geometry">
        <rect>
-        <x>550</x>
+        <x>564</x>
         <y>30</y>
-        <width>75</width>
+        <width>71</width>
         <height>23</height>
        </rect>
       </property>
@@ -282,9 +282,9 @@
      <widget class="QLineEdit" name="lineEdit">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>0</x>
         <y>30</y>
-        <width>161</width>
+        <width>141</width>
         <height>20</height>
        </rect>
       </property>
@@ -295,9 +295,9 @@
      <widget class="QComboBox" name="comboBox_2">
       <property name="geometry">
        <rect>
-        <x>420</x>
+        <x>510</x>
         <y>30</y>
-        <width>69</width>
+        <width>41</width>
         <height>22</height>
        </rect>
       </property>
@@ -310,7 +310,7 @@
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>380</x>
+        <x>470</x>
         <y>30</y>
         <width>31</width>
         <height>16</height>
@@ -331,6 +331,19 @@
       </property>
       <property name="text">
        <string>Create Report</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_23">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>30</y>
+        <width>171</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Enter Borrower Information</string>
       </property>
      </widget>
     </widget>
@@ -749,7 +762,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -874,7 +887,7 @@
           </rect>
          </property>
          <property name="echoMode">
-          <enum>QLineEdit::Password</enum>
+          <enum>QLineEdit::Normal</enum>
          </property>
         </widget>
         <widget class="QLineEdit" name="lineEdit_30">
@@ -887,7 +900,7 @@
           </rect>
          </property>
          <property name="echoMode">
-          <enum>QLineEdit::Password</enum>
+          <enum>QLineEdit::Normal</enum>
          </property>
         </widget>
         <widget class="QPushButton" name="pushButton_23">
@@ -1617,6 +1630,9 @@
          <height>20</height>
         </rect>
        </property>
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
       </widget>
       <widget class="QLabel" name="label_23">
        <property name="geometry">
@@ -1797,6 +1813,25 @@
      </size>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_28">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>250</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Logout</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+   </widget>
    <widget class="QGroupBox" name="groupBox_2">
     <property name="enabled">
      <bool>true</bool>
@@ -1804,7 +1839,7 @@
     <property name="geometry">
      <rect>
       <x>630</x>
-      <y>50</y>
+      <y>40</y>
       <width>171</width>
       <height>381</height>
      </rect>
@@ -1947,25 +1982,6 @@
      </property>
     </widget>
    </widget>
-   <widget class="QPushButton" name="pushButton_28">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>250</y>
-      <width>71</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Logout</string>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>30</width>
-      <height>30</height>
-     </size>
-    </property>
-   </widget>
    <zorder>pushButton_2</zorder>
    <zorder>pushButton</zorder>
    <zorder>pushButton_3</zorder>
@@ -1973,8 +1989,8 @@
    <zorder>pushButton_4</zorder>
    <zorder>tabWidget</zorder>
    <zorder>pushButton_21</zorder>
-   <zorder>groupBox_2</zorder>
    <zorder>pushButton_28</zorder>
+   <zorder>groupBox_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -1990,6 +2006,7 @@
  </widget>
  <resources>
   <include location="Icons/icon.qrc"/>
+  <include location="../../../Desktop/Build-Library-Management-System-Python-PyQt5-master/Build-Library-Management-System-Python-PyQt5-master/icons.qrc"/>
  </resources>
  <connections/>
 </ui>

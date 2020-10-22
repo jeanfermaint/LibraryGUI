@@ -29,7 +29,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Login</string>
+    <string>login</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit">
@@ -100,7 +100,7 @@
     <rect>
      <x>120</x>
      <y>60</y>
-     <width>161</width>
+     <width>111</width>
      <height>41</height>
     </rect>
    </property>
@@ -113,7 +113,7 @@
     <rect>
      <x>120</x>
      <y>160</y>
-     <width>161</width>
+     <width>111</width>
      <height>41</height>
     </rect>
    </property>

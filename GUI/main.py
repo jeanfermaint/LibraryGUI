@@ -69,8 +69,8 @@ class MainWindow(QMainWindow):
 
     def show_popup(self):
         msg = QMessageBox()
-        msg.setWindowTitle("Login Success!")
-        msg.setText("Login successful!")
+        msg.setWindowTitle("login Success!")
+        msg.setText("login successful!")
         x = msg.exec_()
     def show_signup(self):
         msg = QMessageBox()

@@ -3,31 +3,33 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
 import MySQLdb
-
+import datetime
+from xlrd import *
+from xlsxwriter import *
 from PyQt5.uic import loadUiType
-
 
 ui,_ = loadUiType('testing.ui')
 
 login,_ = loadUiType('login.ui')
 
+
 class Main_Login(QWidget, login):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)
-        self.pushButton.clicked.connect(self.handle_Login)
-        theme = open('themes/darkorange.css','r')
+        self.pushButton.clicked.connect(self.handleLogin)
+        theme = open('themes/darkorange.css', 'r')
         theme = theme.read()
         self.setStyleSheet(theme)
         self.pushButton_2.setStyleSheet(u"QPushButton { border: none;\n"
-"       background-color: #323232;}\n"
-"       QPushButton:hover { color: #ffaa00;}")
+                                        "       background-color: #323232;}\n"
+                                        "       QPushButton:hover { color: #ffaa00;}")
         self.pushButton_3.setStyleSheet(u"QPushButton { border: none;\n"
-"       background-color: #323232;}\n"
-"       QPushButton:hover { color: #ffaa00;}")
+                                        "       background-color: #323232;}\n"
+                                        "       QPushButton:hover { color: #ffaa00;}")
 
-    def handle_Login(self):
-        self.db = MySQLdb.connect(host='localhost',db='library',user='lcs',password='root')
+    def handleLogin(self):
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
         username = self.lineEdit.text()
@@ -35,7 +37,7 @@ class Main_Login(QWidget, login):
 
         self.cur.execute('''
             SELECT * FROM user WHERE user_name=%s and user_password=%s
-            ''',(username,password))
+            ''', (username, password))
         found = self.cur.fetchone()
         print(found)
 
@@ -46,86 +48,146 @@ class Main_Login(QWidget, login):
             self.window_2.show()
 
         else:
-            #self.QMessageBox.warning(self, 'Wrong Username & Password',"Enter a valid Username & Password", QMessageBox.close(),QMessageBox.close())
             self.label.setText('Enter a valid Username & Password')
+
 
 class MainApp(QMainWindow, ui):
     def __init__(self):
         QMainWindow.__init__(self)
         self.setupUi(self)
-        self.Handle_UI_Changes()
-        self.Handle_Buttons()
-        self.Dark_Orange_Theme()
+        self.handleUIChanges()
+        self.handleButtons()
+        self.darkOrangeTheme()
 
-        self.Show_Subject()
-        self.Show_Author()
+        self.showSubject()
+        self.showAuthor()
 
-        self.Show_Subj_Box()
-        self.Show_Author_Box()
+        self.showSubjBox()
+        self.showAuthorBox()
 
+        #self.showAllBorrowers()
+        self.showAllBooks()
+        #self.showAllTransactions()
 
-    def Handle_UI_Changes(self):
-        self.Hide_Themes()
+    def handleUIChanges(self):
+        self.hideThemes()
         self.tabWidget.tabBar().setVisible(False)
 
-    def Handle_Buttons(self):
-        self.pushButton_5.clicked.connect(self.Show_Themes)
-        self.pushButton_20.clicked.connect(self.Hide_Themes)
+    def handleButtons(self):
+        self.pushButton_5.clicked.connect(self.showThemes)
+        self.pushButton_20.clicked.connect(self.hideThemes)
 
-        self.pushButton.clicked.connect(self.Open_Day_to_Day_Tab)
-        self.pushButton_2.clicked.connect(self.Open_Books_Tab)
-        self.pushButton_21.clicked.connect(self.Open_Borrower_Tab)
-        self.pushButton_3.clicked.connect(self.Open_Users_Tab)
-        self.pushButton_4.clicked.connect(self.Open_Settings_Tab)
+        self.pushButton.clicked.connect(self.openDayToDayTab)
+        self.pushButton_2.clicked.connect(self.openBookTab)
+        self.pushButton_21.clicked.connect(self.openBorrowerTab)
+        self.pushButton_3.clicked.connect(self.openUsersTab)
+        self.pushButton_4.clicked.connect(self.OpenSettingsTab)
 
-        self.pushButton_8.clicked.connect(self.Add_New_Book)
-        self.pushButton_9.clicked.connect(self.Search_Book)
-        self.pushButton_10.clicked.connect(self.Edit_Book)
-        self.pushButton_7.clicked.connect(self.Delete_Book)
+        self.pushButton_8.clicked.connect(self.addNewBook)
+        self.pushButton_9.clicked.connect(self.searchBook)
+        self.pushButton_10.clicked.connect(self.editBook)
+        self.pushButton_7.clicked.connect(self.deleteBook)
 
-        self.pushButton_14.clicked.connect(self.Add_Subject)
-        self.pushButton_15.clicked.connect(self.Add_Author)
+        self.pushButton_14.clicked.connect(self.addSubject)
+        self.pushButton_15.clicked.connect(self.addAuthor)
 
-        self.pushButton_11.clicked.connect(self.Add_New_User)
-        self.pushButton_13.clicked.connect(self.Login)
-        self.pushButton_12.clicked.connect(self.Edit_User)
+        self.pushButton_11.clicked.connect(self.addNewUser)
+        self.pushButton_13.clicked.connect(self.login)
+        self.pushButton_12.clicked.connect(self.editUser)
 
-        self.pushButton_18.clicked.connect(self.Dark_Orange_Theme)
-        self.pushButton_17.clicked.connect(self.Dark_Blue_Theme)
-        self.pushButton_16.clicked.connect(self.Dark_Gray_Theme)
-        self.pushButton_19.clicked.connect(self.QDark_Theme)
+        self.pushButton_18.clicked.connect(self.darkOrangeTheme)
+        self.pushButton_17.clicked.connect(self.darkBlueTheme)
+        self.pushButton_16.clicked.connect(self.darkGrayTheme)
+        self.pushButton_19.clicked.connect(self.qDarkTheme)
+
+        self.pushButton_23.clicked.connect(self.addNewBorrower)
+        self.pushButton_26.clicked.connect(self.searchBorrower)
+        #self.pushButton_25.clicked.connect(self.)
+        self.pushButton_24.clicked.connect(self.editBorrower)
+        self.pushButton_27.clicked.connect(self.deleteBorrower)
+
+        self.pushButton_6.clicked.connect(self.handleDayTransactions)
+
+        #self.pushButton_22.clicked.connect(self.)
 
 
-    def Show_Themes(self):
+
+    def showThemes(self):
         self.groupBox_2.show()
 
-    def Hide_Themes(self):
+    def hideThemes(self):
         self.groupBox_2.hide()
 
     ################################################
-    ################ Opening Tabs ################
+    ################ Opening Tabs ##################
+    ################################################
 
-    def Open_Day_to_Day_Tab(self):
+    def openDayToDayTab(self):
         self.tabWidget.setCurrentIndex(0)
 
-    def Open_Books_Tab(self):
+    def openBookTab(self):
         self.tabWidget.setCurrentIndex(1)
 
-    def Open_Borrower_Tab(self):
+    def openBorrowerTab(self):
         self.tabWidget.setCurrentIndex(2)
 
-    def Open_Users_Tab(self):
+    def openUsersTab(self):
         self.tabWidget.setCurrentIndex(3)
 
-    def Open_Settings_Tab(self):
+    def OpenSettingsTab(self):
         self.tabWidget.setCurrentIndex(4)
 
     ################################################
-     ################## Books #####################
+    ############### Day Operations #################
+    ################################################
 
-    def Show_All_Books(self):
+    def handleDayTransactions(self):
+        book_title = self.lineEdit.text()
+        borrower_name = self.lineEdit23.text()
+        trans_type = self.comboBox.currentText()
+        days_number = self.comboBox_2.currentText()
+        today_date = datetime.date.today()
+        to_date = today_date + datetime.timedelta(days=days_number)
 
-        self.db = MySQLdb.connect(host='localhost',db='library',user='lcs',password='root')
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''
+        INSERT INTO day_transactions(book_name, borrower, type, date, to_date) 
+        VALUES (%s , %s , %s , %s , %s , %s)
+        ''', (book_title,borrower_name,trans_type,days_number,to_date))
+
+        self.db.commit()
+        self.QMessageBox.information(self,'Done', "New Transaction Completed", QMessageBox.close(),QMessageBox.close())
+
+        self.showAllTransactions()
+
+    def showAllTransactions(self):
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''SELECT book_name, borrower, type, date, to_date FROM day_transactions''')
+
+        data = self.cur.fetchall()
+
+        print(data)
+        self.tableWidget.setRowCount(0)
+        self.tableWidget.insertRow(0)
+        for row, form in enumerate(data):
+            for column, item in enumerate(form):
+                self.tableWidget.setItem(row, column, QTableWidgetItem(str(item)))
+                column += 1
+
+            row_pos = self.tableWidget.rowCount()
+            self.tableWidget.insertRow(row_pos)
+
+    ################################################
+    ################### Books ######################
+    ################################################
+
+    def showAllBooks(self):
+
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
         self.cur.execute('''
@@ -138,46 +200,44 @@ class MainApp(QMainWindow, ui):
 
         for row, form in enumerate(data):
             for column, item in enumerate(form):
-                self.tableWidget_4.setItem(row,column,QTableWidgetItem(str(item)))
+                self.tableWidget_4.setItem(row, column, QTableWidgetItem(str(item)))
                 column += 1
 
             row_pos = self.tableWidget_4.rowCount()
             self.tableWidget_4.insertRow(row_pos)
 
+    def addNewBook(self):
 
-    def Add_New_Book(self):
-
-        self.db = MySQLdb.connect(host='localhost',db='library',user='lcs',password='root')
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
         book_title = self.lineEdit_5.text()
         book_code = self.lineEdit_4.text()
-        book_subject = self.comboBox_5.CurrentText()
-        book_author = self.comboBox_6.CurrentText()
+        book_subject = self.comboBox_5.currentText()
+        book_author = self.comboBox_6.currentText()
         book_description = self.textEdit.toPlainText()
-        #book_publisher = self.comboBox_?.CurrentText()
         book_price = self.lineEdit_21.text()
 
         self.cur.execute('''
-            INSERT INTO book (book_name,book_description,book_code,book_subject,_book_author,book_price)
+            INSERT INTO book (book_name,book_description,book_code,book_subject,book_author,book_price)
             VALUES (%s, %s, %s, %s, %s, %s)
-        ''', (book_title,book_description,book_code,book_subject,book_author,book_price))
+        ''', (book_title, book_description, book_code, book_subject, book_author, book_price))
 
         self.db.commit()
+        self.QMessage.information(self,'Done',"New Book Added",QMessageBox.close(),QMessageBox.close())
         self.statusBar().showMessage('New Book Added')
 
-        self.lineEdit_5.setText('') #book title
-        self.textEdit.setPlainText('') #book description
-        self.lineEdit_4.setText('') #book code
-        self.comboBox_5.setCurrentIndex(0) #book subjects
-        self.comboBox_6.setCurrentIndex(0) #book authors
-        #self.comboBox_?.setCurrentIndex(0) #book publishers
-        self.lineEdit_21.setText('')
-        self.Show_All_Books()
+        self.lineEdit_5.setText('')         # book title
+        self.textEdit.setPlainText('')      # book description
+        self.lineEdit_4.setText('')         # book code
+        self.comboBox_5.setCurrentIndex(0)  # book subjects
+        self.comboBox_6.setCurrentIndex(0)  # book authors
+        self.lineEdit_21.setText('')        # book price
+        self.showAllBooks()
 
-        #self.db.close()
+        # self.db.close()
 
-    def Search_Book(self):
+    def searchBook(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
@@ -196,10 +256,9 @@ class MainApp(QMainWindow, ui):
         self.comboBox_4.setCurrentText(data[5])
         self.lineEdit_22.setText(str(data[6]))
 
+    def editBook(self):
 
-    def Edit_Book(self):
-
-        self.db = MySQLdb.connect(host='localhost',db='library',user='lcs',password='root')
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
         book_title = self.lineEdit_6.text()
@@ -210,32 +269,36 @@ class MainApp(QMainWindow, ui):
         book_price = self.lineEdit_22.text()
 
         search_book_title = self.lineEdit_2.text()
-        self.cur.execute('''UPDATE book SET book_name=%s ,book_description=%s ,book_code=%s ,book_subject=%s ,book_author=%s ,book_price=%s
-            WHERE book_name = %s''', (book_title,book_description,book_code,book_subject,book_author,book_price,search_book_title))
+        self.cur.execute('''UPDATE book SET book_name=%s ,book_description=%s ,book_code=%s ,
+            book_subject=%s ,book_author=%s ,book_price=%s WHERE book_name = %s
+            ''', (book_title, book_description, book_code, book_subject, book_author, book_price, search_book_title))
 
         self.db.commit()
+        self.QMessage.information(self,'Done',"Book Updated",QMessageBox.close(),QMessageBox.close())
         self.statusBar().showMessage('Book Updated')
-        self.Show_All_Books()
+        self.showAllBooks()
 
-    def Delete_Book(self):
+    def deleteBook(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
         book_title = self.lineEdit_2.text()
 
-        warning = QMessageBox.warning(self,'Delete Book',"Are you sure you want to delete this book?", QMessageBox.Yes | QMessageBox.No)
-        if warning == QMessageBox.Yes :
+        warning = QMessageBox.warning(self, 'Delete Book', "Are you sure you want to delete this book?",
+                                      QMessageBox.Yes | QMessageBox.No)
+        if warning == QMessageBox.Yes:
             delete = '''DELETE FROM book WHERE book_name = %s '''
             self.cur.execute(delete, [(book_title)])
             self.db.commit()
             self.statusBar().showMessage('Book Deleted')
 
-            self.Show_All_Books()
+            self.showAllBooks()
 
     ################################################
     ################## Borrowers ###################
+    ################################################
 
-    def Show_All_Borrowers(self):
+    def showAllBorrowers(self):
         self.db = MySQLdb.connect(host='localhost', user='lcs', password='root', db='library')
         self.cur = self.db.cursor()
 
@@ -256,9 +319,9 @@ class MainApp(QMainWindow, ui):
             row_pos = self.tableWidget_5.rowCount()
             self.tableWidget_5.insertRow(row_pos)
 
-        self.db.close()
+        #self.db.close()
 
-    def Add_New_Borrower(self):
+    def addNewBorrower(self):
         borrower_name = self.lineEdit_28.text()
         borrower_email = self.lineEdit_29.text()
         borrower_phone = self.lineEdit_30.text()
@@ -272,10 +335,11 @@ class MainApp(QMainWindow, ui):
                ''', (borrower_name, borrower_email, borrower_phone))
         self.db.commit()
         self.db.close()
+        self.QMessage.information(self,'Done',"New Borrower Added",QMessageBox.close(),QMessageBox.close())
         self.statusBar().showMessage('New Borrower Added')
-        self.Show_All_Borrowers()
+        self.showAllBorrowers()
 
-    def Search_Borrower(self):
+    def searchBorrower(self):
         borrower_ID = self.lineEdit_41.text()
 
         self.db = MySQLdb.connect(host='localhost', user='lcs', password='root', db='library')
@@ -291,25 +355,27 @@ class MainApp(QMainWindow, ui):
         self.lineEdit_36.setText(data[2])
         self.lineEdit_35.setText(data[3])
 
-    def Edit_Borrower(self):
+    def editBorrower(self):
         original_borrower_ID = self.lineEdit_41.text()
         borrower_name = self.lineEdit_37.text()
         borrower_email = self.lineEdit_34.text()
         borrower_phone = self.lineEdit_36.text()
         borrower_ID = self.lineEdit_35.text()
 
-        self.db = MySQLdb.connect(host='localhost' , user='root' , password ='toor' , db='library')
+        self.db = MySQLdb.connect(host='localhost', user='root', password='toor', db='library')
         self.cur = self.db.cursor()
 
         self.cur.execute('''
             UPDATE borrower SET borrower_name = %s , borrower_email = %s , borrower_phone = %s , borrower_ID = %s
-            WHERE borrower_ID = %s''', (borrower_name,borrower_email,borrower_phone,borrower_ID,original_borrower_ID))
+            WHERE borrower_ID = %s''',
+                         (borrower_name, borrower_email, borrower_phone, borrower_ID, original_borrower_ID))
         self.db.commit()
         self.db.close()
+        self.QMessage.information(self,'Done',"Borrower Updated",QMessageBox.close(),QMessageBox.close())
         self.statusBar().showMessage('Borrower Data Updated')
-        self.Show_All_Borrowers()
+        self.showAllBorrowers()
 
-    def Delete_Borrower(self):
+    def deleteBorrower(self):
         borrower_ID = self.lineEdit_41.text()
 
         warning = QMessageBox.warning(self, 'Delete Borrower', "Delete Borrower?", QMessageBox.Yes | QMessageBox.No)
@@ -323,16 +389,17 @@ class MainApp(QMainWindow, ui):
 
             self.db.commit()
             self.db.close()
+            self.QMessage.information(self, 'Done', "Borrower Deleted", QMessageBox.close(), QMessageBox.close())
             self.statusBar().showMessage('Borrower Deleted')
-            self.Show_All_Borrowers()
-
+            self.showAllBorrowers()
 
     ################################################
-    ################## Users #####################
+    #################### Users #####################
+    ################################################
 
-    def Add_New_User(self):
+    def addNewUser(self):
 
-        self.db = MySQLdb.connect(host='localhost',db='library',user='lcs',password='root')
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
         user_name = self.lineEdit_7.text()
@@ -346,16 +413,17 @@ class MainApp(QMainWindow, ui):
             self.cur.execute('''
                 INSERT INTO user (user_name, user_email, user_phone, user_password) 
                 VALUES (%s , %s , %s , %s)
-            ''', (user_name,user_email,user_phone,user_password))
+            ''', (user_name, user_email, user_phone, user_password))
 
             self.db.commit()
             self.statusBar().showMessage('New User Added')
 
         else:
             self.label_29.setText('Please enter a valid password twice')
-            #QMessageBox.warning(self,'Invalid Password', "Enter a valid password twice. Please try again.",QMessageBox.Close, QMessageBox.Close)
+            QMessageBox.warning(self, 'Invalid Password', "Enter a valid password twice. Please try again.",
+                                QMessageBox.Close, QMessageBox.Close)
 
-    def Login(self):
+    def login(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
@@ -364,7 +432,7 @@ class MainApp(QMainWindow, ui):
 
         self.cur.execute('''
             SELECT * FROM user WHERE user_name=%s and user_password=%s
-            ''',(username,password))
+            ''', (username, password))
         found = self.cur.fetchone()
         print(found)
 
@@ -380,9 +448,10 @@ class MainApp(QMainWindow, ui):
 
         else:
             self.statusBar().showMessage('Enter Valid Username & Password')
-            QMessageBox.warning(self,'Invalid User or Password', "Please enter a valid Username & Password.",QMessageBox.Close,QMessageBox.Close)
+            QMessageBox.warning(self, 'Invalid User or Password', "Please enter a valid Username & Password.",
+                                QMessageBox.Close, QMessageBox.Close)
 
-    def Edit_User(self):
+    def editUser(self):
 
         username = self.lineEdit_11.text()
         password = self.lineEdit_14.text()
@@ -404,22 +473,24 @@ class MainApp(QMainWindow, ui):
             self.cur.execute('''
                 UPDATE user SET user_name=%s , user_email=%s , user_phone=%s , user_password=%s
                 WHERE user_name=%s
-            ''', (username,email,phone,password,original_name))
+            ''', (username, email, phone, password, original_name))
 
             self.db.commit()
-            QMessageBox.information(self,'Message',"User Data Updated Successfully", QMessageBox.Ok,QMessageBox.Ok)
+            QMessageBox.information(self, 'Done', "User Data Updated Successfully", QMessageBox.Ok, QMessageBox.Ok)
             self.statusBar().showMessage('User Data Updated Successfully')
 
         else:
-            QMessageBox.warning(self,'Invalid Password', "Enter a valid Password twice. Please try again.", QMessageBox.Close,)
+            QMessageBox.warning(self, 'Invalid Password', "Enter a valid Password twice. Please try again.",
+                                QMessageBox.Close, QMessageBox.Close)
             print('Please enter a valid Password')
 
     ################################################
-    ################## Settings ###################
+    #################### Admin #####################
+    ################################################
 
-    def Add_Subject(self):
+    def addSubject(self):
 
-        self.db = MySQLdb.connect(host='localhost',db='library',user='lcs',password='root')
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
         subject_name = self.lineEdit_19.text()
@@ -429,10 +500,10 @@ class MainApp(QMainWindow, ui):
         self.db.commit()
         self.statusBar().showMessage('New Subject Added')
         self.lineEdit_19.setText('')
-        self.Show_Subject()
-        #self.db.close()
+        self.showSubject()
+        # self.db.close()
 
-    def Show_Subject(self):
+    def showSubject(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
@@ -443,16 +514,16 @@ class MainApp(QMainWindow, ui):
             self.tableWidget_2.setRowCount(0)
             self.tableWidget_2.insertRow(0)
             for row, form in enumerate(data):
-                for column , item in enumerate(form):
+                for column, item in enumerate(form):
                     self.tableWidget_2.setItem(row, column, QTableWidgetItem(str(item)))
                     column += 1
 
                 row_pos = self.tableWidget_2.rowCount()
                 self.tableWidget_2.insertRow(row_pos)
 
-        #self.db.close()
+        # self.db.close()
 
-    def Add_Author(self):
+    def addAuthor(self):
 
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
@@ -464,11 +535,10 @@ class MainApp(QMainWindow, ui):
         self.db.commit()
         self.statusBar().showMessage('New Author Added')
         self.lineEdit_20.setText('')
-        self.Show_Author()
-        #self.db.close()
+        self.showAuthor()
+        # self.db.close()
 
-
-    def Show_Author(self):
+    def showAuthor(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
@@ -486,17 +556,13 @@ class MainApp(QMainWindow, ui):
                 row_pos = self.tableWidget_3.rowCount()
                 self.tableWidget_3.insertRow(row_pos)
 
-        #self.db.close()
-
-    def Add_Publisher(self):
-        pass
-    def Show_Publisher(self):
-        pass
+        # self.db.close()
 
     ################################################
-    ########## Show Settings Data in UI ###########
+    ########## Show Settings Data in UI ############
+    ################################################
 
-    def Show_Subj_Box(self):
+    def showSubjBox(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
@@ -507,10 +573,10 @@ class MainApp(QMainWindow, ui):
             self.comboBox_5.addItem(subject[0])
             self.comboBox_3.addItem(subject[0])
 
-        #self.db.close()
+        self.db.close()
 
-    def Show_Author_Box(self):
-        self.db = MySQLdb.connect(host='localhost',db='library',user='lcs',password='root')
+    def showAuthorBox(self):
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
         self.cur.execute('''SELECT author_name FROM author''')
@@ -520,44 +586,136 @@ class MainApp(QMainWindow, ui):
             self.comboBox_6.addItem(author[0])
             self.comboBox_4.addItem(author[0])
 
-        #self.db.close()
+        self.db.close()
 
-    def Show_Publish_Box(self):
-        pass
+    ################################################
+    ###################  Reports ###################
+    ################################################
+
+    def dayReport(self):
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''
+        SELECT book_name,borrower,type,date,to_date FROM day_transactions
+        ''')
+
+        data = self.cur.fetchall()
+
+        wb = Workbook('day_transactions.xlsx')
+        sheet1 = wb.add_worksheet()
+
+        sheet1.write(0,0,'book title')
+        sheet1.write(0,1,'borrower name')
+        sheet1.write(0,2,'type')
+        sheet1.write(0,3,'from date')
+        sheet1.write(0,4,'to date')
+
+        row_num = 1
+        for row in data:
+            column_num = 0
+            for item in row:
+                sheet1.write(row_num,column_num,str(item))
+                column_num += 1
+            row_num += 1
+
+        wb.close()
+        self.statusBar().showMessage('Report Created Successfully')
+        self.QMessage.information(self,'Done',"Report Created Successfully",QMessageBox.close(),QMessageBox.close())
+
+    def bookReport(self):
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''
+        SELECT book_name,book_code,book_subject,book_author,book_price,book_status
+         FROM book''')
+
+        data = self.cur.fetchall()
+
+        wb = Workbook('book_report.xlsx')
+        sheet1 = wb.add_worksheet()
+
+        sheet1.write(0, 0, 'book code')
+        sheet1.write(0, 1, 'book title')
+        sheet1.write(0, 2, 'book subject')
+        sheet1.write(0, 3, 'book author')
+        sheet1.write(0, 4, 'book price')
+        sheet1.write(0, 5, 'book status')
+
+        row_num = 1
+        for row in data:
+            column_num = 0
+            for item in row:
+                sheet1.write(row_num, column_num, str(item))
+                column_num += 1
+            row_num += 1
+
+        wb.close()
+        self.statusBar().showMessage('Report Created Successfully')
+        self.QMessage.information(self, 'Done', "Book Report Created Successfully", QMessageBox.close(), QMessageBox.close())
+
+    def borrowerReport(self):
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''
+        SELECT borrower_name,borrower_email,borrower_phone FROM borrower
+        ''')
+
+        data = self.cur.fetchall()
+
+        wb = Workbook('borrower_report.xlsx')
+        sheet1 = wb.add_worksheet()
+
+        sheet1.write(0, 0, 'borrower name')
+        sheet1.write(0, 1, 'borrower email')
+        sheet1.write(0, 2, 'borrower phone')
 
 
+        row_num = 1
+        for row in data:
+            column_num = 0
+            for item in row:
+                sheet1.write(row_num, column_num, str(item))
+                column_num += 1
+            row_num += 1
 
-   ########################################
-    ###########  UI Themes ###############
+        wb.close()
+        self.statusBar().showMessage('Report Created Successfully')
+        self.QMessage.information(self, 'Done', "Borrower Report Created Successfully", QMessageBox.close(),
+                                  QMessageBox.close())
 
-    def Dark_Blue_Theme(self):
+    ################################################
+    ##################  UI Themes ##################
+    ################################################
+
+    def darkBlueTheme(self):
         style = open('themes/darkblue.css', 'r')
         style = style.read()
         self.setStyleSheet(style)
 
-    def Dark_Gray_Theme(self):
+    def darkGrayTheme(self):
         style = open('themes/darkgray.css', 'r')
         style = style.read()
         self.setStyleSheet(style)
 
-    def Dark_Orange_Theme(self):
+    def darkOrangeTheme(self):
         style = open('themes/darkorange.css', 'r')
         style = style.read()
         self.setStyleSheet(style)
 
-    def QDark_Theme(self):
+    def qDarkTheme(self):
         style = open('themes/qdark.css', 'r')
         style = style.read()
         self.setStyleSheet(style)
 
-
 def main():
     app = QApplication(sys.argv)
-    #window = MainApp()
+    # window = MainApp()
     window = Main_Login()
     window.show()
     app.exec_()
-
 
 if __name__ == '__main__':
     main()
