@@ -36,7 +36,7 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>20</y>
+     <y>10</y>
      <width>301</width>
      <height>41</height>
     </rect>
@@ -55,7 +55,7 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>100</y>
+     <y>110</y>
      <width>301</width>
      <height>41</height>
     </rect>
@@ -104,12 +104,6 @@
      <height>41</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton {	
-	border: none;
-}
-</string>
-   </property>
    <property name="text">
     <string>Forgot Username</string>
    </property>
@@ -118,16 +112,10 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>140</y>
+     <y>160</y>
      <width>161</width>
      <height>41</height>
     </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton {	
-	border: none;
-}
-</string>
    </property>
    <property name="text">
     <string>Forgot Password</string>

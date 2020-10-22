@@ -19,6 +19,12 @@ class Main_Login(QWidget, login):
         theme = open('themes/darkorange.css','r')
         theme = theme.read()
         self.setStyleSheet(theme)
+        self.pushButton_2.setStyleSheet(u"QPushButton { border: none;\n"
+"       background-color: #323232;}\n"
+"       QPushButton:hover { background-color: #ffaa00;}")
+        self.pushButton_3.setStyleSheet(u"QPushButton { border: none;\n"
+"       background-color: #323232;\n"
+"       QPushButton:hover { background-color: #ffaa00);}")
 
     def handle_Login(self):
         self.db = MySQLdb.connect(host='localhost',db='library',user='lcs',password='root')
