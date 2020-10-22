@@ -9,9 +9,7 @@ from xlsxwriter import *
 from PyQt5.uic import loadUiType
 
 ui,_ = loadUiType('testing.ui')
-
 login,_ = loadUiType('login.ui')
-
 
 class Main_Login(QWidget, login):
     def __init__(self):
