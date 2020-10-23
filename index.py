@@ -11,6 +11,7 @@ from PyQt5.uic import loadUiType
 ui,_ = loadUiType('testing.ui')
 login,_ = loadUiType('login.ui')
 
+
 class Main_Login(QWidget, login):
     def __init__(self):
         QWidget.__init__(self)
@@ -90,7 +91,7 @@ class MainApp(QMainWindow, ui):
         self.pushButton_15.clicked.connect(self.addAuthor)
 
         self.pushButton_11.clicked.connect(self.addNewUser)
-        self.pushButton_13.clicked.connect(self.login)
+        self.pushButton_13.clicked.connect(self.enableEditUser)
         self.pushButton_12.clicked.connect(self.editUser)
 
         self.pushButton_18.clicked.connect(self.darkOrangeTheme)
@@ -100,13 +101,15 @@ class MainApp(QMainWindow, ui):
 
         self.pushButton_23.clicked.connect(self.addNewBorrower)
         self.pushButton_26.clicked.connect(self.searchBorrower)
-        #self.pushButton_25.clicked.connect(self.)
+        self.pushButton_25.clicked.connect(self.enableEditBorrower)
         self.pushButton_24.clicked.connect(self.editBorrower)
         self.pushButton_27.clicked.connect(self.deleteBorrower)
 
         self.pushButton_6.clicked.connect(self.handleDayTransactions)
 
-        #self.pushButton_22.clicked.connect(self.)
+        self.pushButton_22.clicked.connect(self.dayReport)
+        self.pushButton_29.clicked.connect(self.bookReport)
+        self.pushButton_30.clicked.connect(self.borrowerReport)
 
 
 
@@ -159,6 +162,7 @@ class MainApp(QMainWindow, ui):
         self.QMessageBox.information(self,'Done', "New Transaction Completed", QMessageBox.close(),QMessageBox.close())
 
         self.showAllTransactions()
+        self.db.close()
 
     def showAllTransactions(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
@@ -178,6 +182,8 @@ class MainApp(QMainWindow, ui):
 
             row_pos = self.tableWidget.rowCount()
             self.tableWidget.insertRow(row_pos)
+
+        self.db.close()
 
     ################################################
     ################### Books ######################
@@ -203,6 +209,7 @@ class MainApp(QMainWindow, ui):
 
             row_pos = self.tableWidget_4.rowCount()
             self.tableWidget_4.insertRow(row_pos)
+        self.db.close()
 
     def addNewBook(self):
 
@@ -211,29 +218,33 @@ class MainApp(QMainWindow, ui):
 
         book_title = self.lineEdit_5.text()
         book_code = self.lineEdit_4.text()
-        book_subject = self.comboBox_5.currentText()
-        book_author = self.comboBox_6.currentText()
+        book_subject = self.lineEdit_24.text()
+        book_author = self.lineEdit_25.text()
         book_description = self.textEdit.toPlainText()
         book_price = self.lineEdit_21.text()
 
+        # try:
         self.cur.execute('''
             INSERT INTO book (book_name,book_description,book_code,book_subject,book_author,book_price)
             VALUES (%s, %s, %s, %s, %s, %s)
         ''', (book_title, book_description, book_code, book_subject, book_author, book_price))
 
         self.db.commit()
-        self.QMessage.information(self,'Done',"New Book Added",QMessageBox.close(),QMessageBox.close())
+        self.QMessageBox.information(self,'Done',"New Book Added",QMessageBox.close(),QMessageBox.close())
         self.statusBar().showMessage('New Book Added')
+
+        # except:
+        # self.QMessageBox.warning(self, 'Error', "Unable to add book", QMessageBox.close())
 
         self.lineEdit_5.setText('')         # book title
         self.textEdit.setPlainText('')      # book description
         self.lineEdit_4.setText('')         # book code
-        self.comboBox_5.setCurrentIndex(0)  # book subjects
-        self.comboBox_6.setCurrentIndex(0)  # book authors
+        self.lineEdit_24.setText('')        # book subjects
+        self.lineEdit_25.setText('')        # book authors
         self.lineEdit_21.setText('')        # book price
         self.showAllBooks()
 
-        # self.db.close()
+        self.db.close()
 
     def searchBook(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
@@ -253,6 +264,7 @@ class MainApp(QMainWindow, ui):
         self.comboBox_3.setCurrentText(data[4])
         self.comboBox_4.setCurrentText(data[5])
         self.lineEdit_22.setText(str(data[6]))
+        self.db.close()
 
     def editBook(self):
 
@@ -272,9 +284,10 @@ class MainApp(QMainWindow, ui):
             ''', (book_title, book_description, book_code, book_subject, book_author, book_price, search_book_title))
 
         self.db.commit()
-        self.QMessage.information(self,'Done',"Book Updated",QMessageBox.close(),QMessageBox.close())
+        self.QMessageBox.information(self,'Done',"Book Updated",QMessageBox.close(),QMessageBox.close())
         self.statusBar().showMessage('Book Updated')
         self.showAllBooks()
+        self.db.close()
 
     def deleteBook(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
@@ -291,6 +304,8 @@ class MainApp(QMainWindow, ui):
             self.statusBar().showMessage('Book Deleted')
 
             self.showAllBooks()
+
+        self.db.close()
 
     ################################################
     ################## Borrowers ###################
@@ -317,23 +332,24 @@ class MainApp(QMainWindow, ui):
             row_pos = self.tableWidget_5.rowCount()
             self.tableWidget_5.insertRow(row_pos)
 
-        #self.db.close()
+        self.db.close()
 
     def addNewBorrower(self):
         borrower_name = self.lineEdit_28.text()
         borrower_email = self.lineEdit_29.text()
         borrower_phone = self.lineEdit_30.text()
+        borrower_ID = self.lineEdit_33.text()
 
         self.db = MySQLdb.connect(host='localhost', user='lcs', password='root', db='library')
         self.cur = self.db.cursor()
 
         self.cur.execute('''
-                   INSERT INTO borrower(borrower_name , borrower_email , borrower_phone)
-                   VALUES (%s , %s , %s)
-               ''', (borrower_name, borrower_email, borrower_phone))
+                   INSERT INTO borrower(borrower_name , borrower_email , borrower_phone , borrower_ID)
+                   VALUES (%s , %s , %s , %s)
+               ''', (borrower_name, borrower_email, borrower_phone, borrower_ID))
         self.db.commit()
         self.db.close()
-        self.QMessage.information(self,'Done',"New Borrower Added",QMessageBox.close(),QMessageBox.close())
+        self.QMessageBox.information(self,'Done',"New Borrower Added",QMessageBox.close(),QMessageBox.close())
         self.statusBar().showMessage('New Borrower Added')
         self.showAllBorrowers()
 
@@ -353,15 +369,55 @@ class MainApp(QMainWindow, ui):
         self.lineEdit_36.setText(data[2])
         self.lineEdit_35.setText(data[3])
 
+        self.db.close()
+
+    def enableEditBorrower(self):
+        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.cur = self.db.cursor()
+
+        username = self.lineEdit_39.text()
+        password = self.lineEdit_40.text()
+
+        self.cur.execute('''
+                    SELECT * FROM user WHERE user_name=%s and user_password=%s
+                    ''', (username, password))
+        found = self.cur.fetchone()
+        print(found)
+
+        if found:
+            print('User Match')
+            self.statusBar().showMessage('Valid Username & Password')
+            self.groupBox_9.setEnabled(True)
+
+        else:
+            self.statusBar().showMessage('Enter Valid Username & Password')
+            QMessageBox.warning(self, 'Invalid User or Password', "Please enter a valid Username & Password.",
+                                QMessageBox.Close, QMessageBox.Close)
+
+        # borrower_ID = self.lineEdit_45.text()
+
+
+        self.db.close()
+
     def editBorrower(self):
-        original_borrower_ID = self.lineEdit_41.text()
-        borrower_name = self.lineEdit_37.text()
-        borrower_email = self.lineEdit_34.text()
-        borrower_phone = self.lineEdit_36.text()
-        borrower_ID = self.lineEdit_35.text()
+        original_borrower_ID = self.lineEdit_45.text()
+        borrower_name = self.lineEdit_44.text()
+        borrower_email = self.lineEdit_38.text()
+        borrower_phone = self.lineEdit_43.text()
+        borrower_ID = self.lineEdit_42.text()
 
         self.db = MySQLdb.connect(host='localhost', user='root', password='toor', db='library')
         self.cur = self.db.cursor()
+
+        sql = ''' SELECT * FROM borrower WHERE borrower_ID = %s '''
+        self.cur.execute(sql, [(original_borrower_ID)])
+        data = self.cur.fetchone()
+        print(data)
+
+        self.lineEdit_44.setText(data[1])
+        self.lineEdit_38.setText(data[2])
+        self.lineEdit_43.setText(data[3])
+        self.lineEdit_42.setText(data[4])
 
         self.cur.execute('''
             UPDATE borrower SET borrower_name = %s , borrower_email = %s , borrower_phone = %s , borrower_ID = %s
@@ -391,6 +447,7 @@ class MainApp(QMainWindow, ui):
             self.statusBar().showMessage('Borrower Deleted')
             self.showAllBorrowers()
 
+        self.db.close()
     ################################################
     #################### Users #####################
     ################################################
@@ -421,7 +478,9 @@ class MainApp(QMainWindow, ui):
             QMessageBox.warning(self, 'Invalid Password', "Enter a valid password twice. Please try again.",
                                 QMessageBox.Close, QMessageBox.Close)
 
-    def login(self):
+        self.db.close()
+
+    def enableEditUser(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
         self.cur = self.db.cursor()
 
@@ -448,6 +507,8 @@ class MainApp(QMainWindow, ui):
             self.statusBar().showMessage('Enter Valid Username & Password')
             QMessageBox.warning(self, 'Invalid User or Password', "Please enter a valid Username & Password.",
                                 QMessageBox.Close, QMessageBox.Close)
+
+        self.db.close()
 
     def editUser(self):
 
@@ -482,6 +543,8 @@ class MainApp(QMainWindow, ui):
                                 QMessageBox.Close, QMessageBox.Close)
             print('Please enter a valid Password')
 
+        self.db.close()
+
     ################################################
     #################### Admin #####################
     ################################################
@@ -499,7 +562,7 @@ class MainApp(QMainWindow, ui):
         self.statusBar().showMessage('New Subject Added')
         self.lineEdit_19.setText('')
         self.showSubject()
-        # self.db.close()
+        self.db.close()
 
     def showSubject(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
@@ -519,7 +582,7 @@ class MainApp(QMainWindow, ui):
                 row_pos = self.tableWidget_2.rowCount()
                 self.tableWidget_2.insertRow(row_pos)
 
-        # self.db.close()
+        self.db.close()
 
     def addAuthor(self):
 
@@ -534,7 +597,7 @@ class MainApp(QMainWindow, ui):
         self.statusBar().showMessage('New Author Added')
         self.lineEdit_20.setText('')
         self.showAuthor()
-        # self.db.close()
+        self.db.close()
 
     def showAuthor(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
@@ -554,7 +617,7 @@ class MainApp(QMainWindow, ui):
                 row_pos = self.tableWidget_3.rowCount()
                 self.tableWidget_3.insertRow(row_pos)
 
-        # self.db.close()
+        self.db.close()
 
     ################################################
     ########## Show Settings Data in UI ############
@@ -568,7 +631,7 @@ class MainApp(QMainWindow, ui):
         data = self.cur.fetchall()
 
         for subject in data:
-            self.comboBox_5.addItem(subject[0])
+            #self.comboBox_5.addItem(subject[0])
             self.comboBox_3.addItem(subject[0])
 
         self.db.close()
@@ -581,7 +644,7 @@ class MainApp(QMainWindow, ui):
         data = self.cur.fetchall()
 
         for author in data:
-            self.comboBox_6.addItem(author[0])
+            #self.comboBox_6.addItem(author[0])
             self.comboBox_4.addItem(author[0])
 
         self.db.close()
