@@ -8,11 +8,12 @@ from xlrd import *
 from xlsxwriter import *
 from PyQt5.uic import loadUiType
 
+
 ui,_ = loadUiType('testing.ui')
 login,_ = loadUiType('login.ui')
 
 
-class Main_Login(QWidget, login):
+class MainLogin(QWidget, login):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)
@@ -64,9 +65,15 @@ class MainApp(QMainWindow, ui):
         self.showSubjBox()
         self.showAuthorBox()
 
-        #self.showAllBorrowers()
+        # self.showAllBorrowers()
         self.showAllBooks()
-        #self.showAllTransactions()
+        # self.showAllTransactions()
+
+    def handleLogout(self):
+        self.mainLoginWindow = MainLogin()
+        self.close()
+        QMessageBox.information(self,'Logout', "You have logged out successfully", QMessageBox.Close)
+        self.mainLoginWindow.show()
 
     def handleUIChanges(self):
         self.hideThemes()
@@ -111,7 +118,7 @@ class MainApp(QMainWindow, ui):
         self.pushButton_29.clicked.connect(self.bookReport)
         self.pushButton_30.clicked.connect(self.borrowerReport)
 
-
+        self.pushButton_28.clicked.connect(self.handleLogout)
 
     def showThemes(self):
         self.groupBox_2.show()
@@ -159,7 +166,7 @@ class MainApp(QMainWindow, ui):
         ''', (book_title,borrower_name,trans_type,days_number,to_date))
 
         self.db.commit()
-        self.QMessageBox.information(self,'Done', "New Transaction Completed", QMessageBox.close(),QMessageBox.close())
+        QMessageBox.information(self,'Done', "New Transaction Completed", QMessageBox.Close)
 
         self.showAllTransactions()
         self.db.close()
@@ -223,18 +230,15 @@ class MainApp(QMainWindow, ui):
         book_description = self.textEdit.toPlainText()
         book_price = self.lineEdit_21.text()
 
-        # try:
+
         self.cur.execute('''
             INSERT INTO book (book_name,book_description,book_code,book_subject,book_author,book_price)
             VALUES (%s, %s, %s, %s, %s, %s)
         ''', (book_title, book_description, book_code, book_subject, book_author, book_price))
 
         self.db.commit()
-        self.QMessageBox.information(self,'Done',"New Book Added",QMessageBox.close(),QMessageBox.close())
+        QMessageBox.information(self,'Done',"New Book Added",QMessageBox.Close)
         self.statusBar().showMessage('New Book Added')
-
-        # except:
-        # self.QMessageBox.warning(self, 'Error', "Unable to add book", QMessageBox.close())
 
         self.lineEdit_5.setText('')         # book title
         self.textEdit.setPlainText('')      # book description
@@ -284,7 +288,7 @@ class MainApp(QMainWindow, ui):
             ''', (book_title, book_description, book_code, book_subject, book_author, book_price, search_book_title))
 
         self.db.commit()
-        self.QMessageBox.information(self,'Done',"Book Updated",QMessageBox.close(),QMessageBox.close())
+        QMessageBox.information(self,'Done',"Book Updated", QMessageBox.Close)
         self.statusBar().showMessage('Book Updated')
         self.showAllBooks()
         self.db.close()
@@ -301,6 +305,7 @@ class MainApp(QMainWindow, ui):
             delete = '''DELETE FROM book WHERE book_name = %s '''
             self.cur.execute(delete, [(book_title)])
             self.db.commit()
+            QMessageBox.information(self,'Done', "Book Deleted", QMessageBox.Close)
             self.statusBar().showMessage('Book Deleted')
 
             self.showAllBooks()
@@ -349,7 +354,7 @@ class MainApp(QMainWindow, ui):
                ''', (borrower_name, borrower_email, borrower_phone, borrower_ID))
         self.db.commit()
         self.db.close()
-        self.QMessageBox.information(self,'Done',"New Borrower Added",QMessageBox.close(),QMessageBox.close())
+        QMessageBox.information(self,'Done',"New Borrower Added", QMessageBox.Close)
         self.statusBar().showMessage('New Borrower Added')
         self.showAllBorrowers()
 
@@ -386,6 +391,7 @@ class MainApp(QMainWindow, ui):
 
         if found:
             print('User Match')
+            QMessageBox.information(self,'Done', "Edit Enabled", QMessageBox.Close)
             self.statusBar().showMessage('Valid Username & Password')
             self.groupBox_9.setEnabled(True)
 
@@ -425,7 +431,7 @@ class MainApp(QMainWindow, ui):
                          (borrower_name, borrower_email, borrower_phone, borrower_ID, original_borrower_ID))
         self.db.commit()
         self.db.close()
-        self.QMessage.information(self,'Done',"Borrower Updated",QMessageBox.close(),QMessageBox.close())
+        QMessageBox.information(self,'Done',"Borrower Updated", QMessageBox.Close)
         self.statusBar().showMessage('Borrower Data Updated')
         self.showAllBorrowers()
 
@@ -443,7 +449,7 @@ class MainApp(QMainWindow, ui):
 
             self.db.commit()
             self.db.close()
-            self.QMessage.information(self, 'Done', "Borrower Deleted", QMessageBox.close(), QMessageBox.close())
+            QMessageBox.information(self, 'Done', "Borrower Deleted", QMessageBox.Close)
             self.statusBar().showMessage('Borrower Deleted')
             self.showAllBorrowers()
 
@@ -535,12 +541,12 @@ class MainApp(QMainWindow, ui):
             ''', (username, email, phone, password, original_name))
 
             self.db.commit()
-            QMessageBox.information(self, 'Done', "User Data Updated Successfully", QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.information(self, 'Done', "User Data Updated Successfully", QMessageBox.Ok)
             self.statusBar().showMessage('User Data Updated Successfully')
 
         else:
             QMessageBox.warning(self, 'Invalid Password', "Enter a valid Password twice. Please try again.",
-                                QMessageBox.Close, QMessageBox.Close)
+                                QMessageBox.Close)
             print('Please enter a valid Password')
 
         self.db.close()
@@ -559,6 +565,7 @@ class MainApp(QMainWindow, ui):
         self.cur.execute('''INSERT INTO subject (subject_name) VALUES ("%s")''', (subject_name,))
 
         self.db.commit()
+        QMessageBox.information(self,'Done', "New Subject Added", QMessageBox.Ok)
         self.statusBar().showMessage('New Subject Added')
         self.lineEdit_19.setText('')
         self.showSubject()
@@ -594,6 +601,7 @@ class MainApp(QMainWindow, ui):
         self.cur.execute('''INSERT INTO author (author_name) VALUES ("%s")''', (author_name,))
 
         self.db.commit()
+        QMessageBox.information(self,'Done',"New Author Added", QMessageBox.Ok)
         self.statusBar().showMessage('New Author Added')
         self.lineEdit_20.setText('')
         self.showAuthor()
@@ -682,7 +690,7 @@ class MainApp(QMainWindow, ui):
 
         wb.close()
         self.statusBar().showMessage('Report Created Successfully')
-        self.QMessage.information(self,'Done',"Report Created Successfully",QMessageBox.close(),QMessageBox.close())
+        QMessageBox.information(self,'Done',"Report Created Successfully", QMessageBox.Ok)
 
     def bookReport(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
@@ -714,7 +722,7 @@ class MainApp(QMainWindow, ui):
 
         wb.close()
         self.statusBar().showMessage('Report Created Successfully')
-        self.QMessage.information(self, 'Done', "Book Report Created Successfully", QMessageBox.close(), QMessageBox.close())
+        QMessageBox.information(self, 'Done', "Book Report Created Successfully", QMessageBox.Ok)
 
     def borrowerReport(self):
         self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
@@ -744,8 +752,7 @@ class MainApp(QMainWindow, ui):
 
         wb.close()
         self.statusBar().showMessage('Report Created Successfully')
-        self.QMessage.information(self, 'Done', "Borrower Report Created Successfully", QMessageBox.close(),
-                                  QMessageBox.close())
+        QMessageBox.information(self, 'Done', "Borrower Report Created Successfully", QMessageBox.Ok)
 
     ################################################
     ##################  UI Themes ##################
@@ -774,7 +781,9 @@ class MainApp(QMainWindow, ui):
 def main():
     app = QApplication(sys.argv)
     # window = MainApp()
-    window = Main_Login()
+    window = MainLogin()
+    window.setFixedHeight(480)
+    window.setFixedWidth(480)
     window.show()
     app.exec_()
 
