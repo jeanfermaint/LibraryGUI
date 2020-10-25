@@ -108,10 +108,10 @@ class MainApp(QMainWindow, ui):
         self.pushButton_13.clicked.connect(self.enableEditUser)
         self.pushButton_12.clicked.connect(self.editUser)
 
-        # self.pushButton_18.clicked.connect(Themes.darkOrangeTheme())
-        # self.pushButton_17.clicked.connect(self.darkBlueTheme)
-        # self.pushButton_16.clicked.connect(self.darkGrayTheme)
-        # self.pushButton_19.clicked.connect(self.qDarkTheme)
+        self.pushButton_18.clicked.connect(Themes.darkOrangeTheme(self))
+        self.pushButton_17.clicked.connect(Themes.darkBlueTheme(self))
+        self.pushButton_16.clicked.connect(Themes.darkGrayTheme(self))
+        self.pushButton_19.clicked.connect(Themes.qDarkTheme(self))
 
         self.pushButton_23.clicked.connect(self.addNewBorrower)
         self.pushButton_26.clicked.connect(self.searchBorrower)
@@ -764,12 +764,13 @@ class MainApp(QMainWindow, ui):
 
 def main():
     app = QApplication(sys.argv)
-    window = MainApp()
-    # window = MainLogin()
-    # window.setFixedHeight(480)
-    # window.setFixedWidth(480)
+    # window = MainApp()
+    window = MainLogin()
+    window.setFixedHeight(480)
+    window.setFixedWidth(480)
     window.show()
     app.exec_()
+
 
 if __name__ == '__main__':
     main()
