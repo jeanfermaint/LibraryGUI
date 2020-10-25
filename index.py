@@ -52,24 +52,44 @@ class MainLogin(QWidget, login):
         found = self.cur.fetchone()
         print(found)
 
-        if found:
+        if found == None:
+
+            QMessageBox.warning(self, 'Warning!', "Enter a valid Username & Password", QMessageBox.Close)
+            self.label.setStyleSheet(u"QLabel { color: #ffaa00;}")
+            self.label.setText('Enter a valid Username & Password')
+
+        else:
             print('User Match')
             self.window_2 = MainApp()
             self.close()
             self.window_2.show()
 
-        else:
-            QMessageBox.warning(self, 'Warning!', "Enter a valid Username & Password", QMessageBox.Close)
-            self.label.setStyleSheet(u"QLabel { color: #ffaa00;}")
-            self.label.setText('Enter a valid Username & Password')
+        # if found:
+        #     print('User Match')
+        #     self.window_2 = MainApp()
+        #     self.close()
+        #     self.window_2.show()
+        #
+        # else:
+        #     QMessageBox.warning(self, 'Warning!', "Enter a valid Username & Password", QMessageBox.Close)
+        #     self.label.setStyleSheet(u"QLabel { color: #ffaa00;}")
+        #     self.label.setText('Enter a valid Username & Password')
 
     def handleForgotEmail(self):
         pass
+        # self.forgot_email_window = ForgotEmail()
+        # self.close()
+        # self.forgot_email_window.show()
 
     def handleForgotPassword(self):
-        self.forgot_pass_window = PasswordReset()
-        self.close()
-        self.forgot_pass_window.show()
+
+        if self.lineEdit.text() == "":
+            QMessageBox.warning(self, 'Error!', "Please enter a valid Username to reset password", QMessageBox.Close)
+
+        else:
+            self.forgot_pass_window = PasswordReset()
+            self.close()
+            self.forgot_pass_window.show()
 
 
 class MainApp(QMainWindow, ui):
@@ -389,12 +409,13 @@ class MainApp(QMainWindow, ui):
         sql = ''' SELECT * FROM borrower WHERE borrower_ID = %s '''
         self.cur.execute(sql, [(borrower_ID)])
         data = self.cur.fetchone()
-        print(data)
+        print(data[5])
 
-        self.lineEdit_37.setText(data[0])
-        self.lineEdit_34.setText(data[1])
-        self.lineEdit_36.setText(data[2])
-        self.lineEdit_35.setText(data[3])
+        self.lineEdit_37.setText(data[1])
+        self.lineEdit_34.setText(data[2])
+        self.lineEdit_36.setText(data[3])
+        self.lineEdit_35.setText(data[5])
+        self.comboBox_8.setCurrentText(data[4])
 
         # self.db.close()
 

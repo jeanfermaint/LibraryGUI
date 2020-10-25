@@ -7,6 +7,13 @@ from app_modules import *
 from index import *
 
 
+# Database connection
+db_host = "localhost"
+db_name = "library"
+db_user = "lcs"
+db_password = "root"
+
+
 reset_pass,_ = loadUiType('forgotpassword.ui')
 
 class PasswordReset(QWidget, reset_pass):
@@ -18,6 +25,7 @@ class PasswordReset(QWidget, reset_pass):
         self.pushButton_3.clicked.connect(self.getResetCode)
         self.pushButton_4.clicked.connect(self.insertCode)
         self.pushButton.clicked.connect(self.resetPassword)
+        self.pushButton_2.clicked.connect(self.resetPassword)
 
 
 
@@ -58,19 +66,24 @@ class PasswordReset(QWidget, reset_pass):
         confirm_pass = self.lineEdit_3.text()
 
         if new_pass == confirm_pass:
-            self.cur.execute('''UPDATE user_password WHERE user_name = %s''', (lambda: MainLogin.lineEdit.text()))
+            self.cur.execute('''UPDATE user_password WHERE user_name = %s''', (MainLogin.username))
             self.db.commit()
             self.window_login = MainLogin()
             self.close()
             self.window_login.show()
-
 
         else:
             QMessageBox.warning(self, 'Warning', "Please enter a valid password", QMessageBox.Close)
 
 
 
-
+    def cancelReset(self):
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
+        self.cur = self.db.cursor()
+        self.window_login = MainLogin()
+        self.close()
+        QMessageBox.information(self, 'Cancel', "You have cancelled the password reset", QMessageBox.Close)
+        self.window_login.show()
 
 
 def main():
