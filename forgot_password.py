@@ -15,6 +15,13 @@ class PasswordReset(QWidget, reset_pass):
         Themes.darkOrangeTheme(self)
 
 
+
+    def getResetCode(self):
+        pass
+
+
+
+
 def main():
     app = QApplication(sys.argv)
     window = PasswordReset()

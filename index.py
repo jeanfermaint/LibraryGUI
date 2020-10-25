@@ -14,6 +14,7 @@ from xlsxwriter import *
 
 ui,_ = loadUiType('testing.ui')
 login,_ = loadUiType('login.ui')
+forgot_password,_ = loadUiType('forgotpassword.ui')
 
 # Database connection
 db_host = "localhost"
@@ -28,6 +29,8 @@ class MainLogin(QWidget, login):
 
         self.setupUi(self)
         self.pushButton.clicked.connect(self.handleLogin)
+        self.pushButton_2.clicked.connect(self.handleForgotEmail)
+        self.pushButton_3.clicked.connect(self.handleForgotPassword)
         Themes.darkOrangeTheme(self)
         self.pushButton_2.setStyleSheet(u"QPushButton { border: none;\n"
                                         "       background-color: #323232;}\n"
@@ -56,7 +59,14 @@ class MainLogin(QWidget, login):
             self.window_2.show()
 
         else:
+            self.label.setStyleSheet(u"QLabel { color: #ffaa00;}")
             self.label.setText('Enter a valid Username & Password')
+
+    def handleForgotEmail(self):
+        pass
+
+    def handleForgotPassword(self):
+        pass
 
 
 class MainApp(QMainWindow, ui):
