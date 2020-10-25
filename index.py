@@ -100,6 +100,8 @@ class MainApp(QMainWindow, ui):
         self.handleButtons()
         Themes.darkOrangeTheme(self)
 
+        self.addAuthor()
+        self.addSubject()
         self.showSubject()
         self.showAuthor()
 
@@ -108,7 +110,7 @@ class MainApp(QMainWindow, ui):
 
         self.showAllBorrowers()
         self.showAllBooks()
-        # self.showAllTransactions()
+        self.showAllTransactions()
 
     def handleLogout(self):
         self.mainLoginWindow = MainLogin()
@@ -281,9 +283,6 @@ class MainApp(QMainWindow, ui):
         QMessageBox.information(self,'Done',"New Book Added", QMessageBox.Close)
         self.statusBar().showMessage('New Book Added')
 
-        self.addAuthor()
-        self.addSubject()
-
         self.lineEdit_5.setText('')         # book title
         self.textEdit.setPlainText('')      # book description
         self.lineEdit_4.setText('')         # book code
@@ -304,14 +303,17 @@ class MainApp(QMainWindow, ui):
         self.cur.execute(search, [(book_title)])
 
         data = self.cur.fetchone()
-
-        print(data)
-        self.lineEdit_6.setText(data[1])
-        self.textEdit_2.setPlainText(data[5])
-        self.lineEdit_3.setText(data[2])
-        self.comboBox_3.setCurrentText(data[3])
-        self.comboBox_4.setCurrentText(data[4])
-        self.lineEdit_22.setText(str(data[6]))
+        if data == None:
+            QMessageBox.information(self,'Not Found', "The book is not in the database.", QMessageBox.Close)
+        else:
+            self.statusBar().showMessage("Book Found")
+            print(data)
+            self.lineEdit_6.setText(data[1])
+            self.textEdit_2.setPlainText(data[5])
+            self.lineEdit_3.setText(data[2])
+            self.comboBox_3.setCurrentText(data[3])
+            self.comboBox_4.setCurrentText(data[4])
+            self.lineEdit_22.setText(str(data[6]))
         # self.db.close()
 
     def editBook(self):
@@ -411,10 +413,10 @@ class MainApp(QMainWindow, ui):
                    VALUES (%s , %s , %s , %s , %s)
                ''', (borrower_name, borrower_email, borrower_phone, borrower_type, borrower_ID))
         self.db.commit()
-        # self.db.close()
         QMessageBox.information(self,'Done',"New Borrower Added", QMessageBox.Close)
         self.statusBar().showMessage('New Borrower Added')
         self.showAllBorrowers()
+        # self.db.close()
 
     def searchBorrower(self):
         borrower_ID = self.lineEdit_41.text()
@@ -448,19 +450,26 @@ class MainApp(QMainWindow, ui):
         found = self.cur.fetchone()
         print(found)
 
-        if found:
+        if found == None:
+            self.statusBar().showMessage('Enter Valid Username & Password')
+            QMessageBox.warning(self, 'Invalid User or Password', "Please enter a valid Username & Password.",
+                                QMessageBox.Close)
+
+        else:
             print('User Match')
-            QMessageBox.information(self,'Done', "Edit Enabled", QMessageBox.Close)
             self.statusBar().showMessage('Valid Username & Password')
             self.groupBox_9.setEnabled(True)
 
-        else:
-            self.statusBar().showMessage('Enter Valid Username & Password')
-            QMessageBox.warning(self, 'Invalid User or Password', "Please enter a valid Username & Password.",
-                                QMessageBox.Close, QMessageBox.Close)
-
-        # borrower_ID = self.lineEdit_45.text()
-
+        # if found:
+        #     print('User Match')
+        #     QMessageBox.information(self,'Done', "Edit Enabled", QMessageBox.Close)
+        #     self.statusBar().showMessage('Valid Username & Password')
+        #     self.groupBox_9.setEnabled(True)
+        #
+        # else:
+        #     self.statusBar().showMessage('Enter Valid Username & Password')
+        #     QMessageBox.warning(self, 'Invalid User or Password', "Please enter a valid Username & Password.",
+        #                         QMessageBox.Close, QMessageBox.Close)
 
         # self.db.close()
 
@@ -558,7 +567,12 @@ class MainApp(QMainWindow, ui):
         found = self.cur.fetchone()
         print(found)
 
-        if found:
+        if found == None:
+            self.statusBar().showMessage('Enter Valid Username & Password')
+            QMessageBox.warning(self, 'Invalid User or Password', "Please enter a valid Username & Password.",
+                                QMessageBox.Close)
+
+        else:
             print('User Match')
             self.statusBar().showMessage('Valid Username & Password')
             self.groupBox_5.setEnabled(True)
@@ -568,10 +582,20 @@ class MainApp(QMainWindow, ui):
             self.lineEdit_13.setText(found[3])
             self.lineEdit_16.setText(found[2])
 
-        else:
-            self.statusBar().showMessage('Enter Valid Username & Password')
-            QMessageBox.warning(self, 'Invalid User or Password', "Please enter a valid Username & Password.",
-                                QMessageBox.Close)
+        # if found:
+        #     print('User Match')
+        #     self.statusBar().showMessage('Valid Username & Password')
+        #     self.groupBox_5.setEnabled(True)
+        #
+        #     self.lineEdit_11.setText(found[1])
+        #     self.lineEdit_14.setText(found[4])
+        #     self.lineEdit_13.setText(found[3])
+        #     self.lineEdit_16.setText(found[2])
+        #
+        # else:
+        #     self.statusBar().showMessage('Enter Valid Username & Password')
+        #     QMessageBox.warning(self, 'Invalid User or Password', "Please enter a valid Username & Password.",
+        #                         QMessageBox.Close)
 
         # self.db.close()
 
@@ -628,6 +652,7 @@ class MainApp(QMainWindow, ui):
         self.statusBar().showMessage('New Subject Added')
         self.lineEdit_19.setText('')
         self.showSubject()
+        self.showSubjBox()
         # self.db.close()
 
     def showSubject(self):
@@ -664,6 +689,7 @@ class MainApp(QMainWindow, ui):
         self.statusBar().showMessage('New Author Added')
         self.lineEdit_20.setText('')
         self.showAuthor()
+        self.showAuthorBox()
         # self.db.close()
 
     def showAuthor(self):
@@ -697,6 +723,7 @@ class MainApp(QMainWindow, ui):
         self.cur.execute('''SELECT subject_name FROM subject''')
         data = self.cur.fetchall()
 
+        self.comboBox_3.clear()
         for subject in data:
             self.comboBox_3.addItem(subject[0])
 
@@ -709,6 +736,7 @@ class MainApp(QMainWindow, ui):
         self.cur.execute('''SELECT author_name FROM author''')
         data = self.cur.fetchall()
 
+        self.comboBox_4.clear()
         for author in data:
             self.comboBox_4.addItem(author[0])
 
