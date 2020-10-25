@@ -90,7 +90,7 @@ class MainApp(QMainWindow, ui):
     def handleLogout(self):
         self.mainLoginWindow = MainLogin()
         self.close()
-        QMessageBox.information(self,'Logout', "You have been logged out successfully", QMessageBox.Close)
+        QMessageBox.information(self, 'Logout', "You have been logged out successfully", QMessageBox.Close)
         self.mainLoginWindow.show()
 
     def handleUIChanges(self):
@@ -531,7 +531,7 @@ class MainApp(QMainWindow, ui):
         else:
             self.statusBar().showMessage('Enter Valid Username & Password')
             QMessageBox.warning(self, 'Invalid User or Password', "Please enter a valid Username & Password.",
-                                QMessageBox.Close, QMessageBox.Close)
+                                QMessageBox.Close)
 
         # self.db.close()
 

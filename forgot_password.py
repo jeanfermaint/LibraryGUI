@@ -4,6 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUiType
 from app_modules import *
+from index import *
 
 
 reset_pass,_ = loadUiType('forgotpassword.ui')
@@ -14,10 +15,55 @@ class PasswordReset(QWidget, reset_pass):
         self.setupUi(self)
         Themes.darkOrangeTheme(self)
 
+        self.pushButton_3.clicked.connect(self.getResetCode)
+        self.pushButton_4.clicked.connect(self.insertCode)
+
 
 
     def getResetCode(self):
-        pass
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
+        self.cur = self.db.cursor()
+
+        self.cur.execute('''SELECT reset_code FROM codes''')
+        codeFound = self.cur.fetchone()
+
+        print(codeFound[0])
+        QMessageBox.information(self, 'Code Found', "Please enter the following code: " + codeFound[0], QMessageBox.Ok)
+
+
+
+    def insertCode(self):
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
+        self.cur = self.db.cursor()
+        codeInput = self.lineEdit.text()
+
+        self.cur.execute('''SELECT reset_code FROM codes''')
+        match = self.cur.fetchone()
+
+        if codeInput == match[0]:
+            print(match[0])
+            QMessageBox.information(self, 'Done', "Valid Code Entered", QMessageBox.Close)
+            self.groupBox.setEnabled(True)
+        else:
+            print('No Match')
+            QMessageBox.warning(self, 'Warning!', "Invalid Code Entered", QMessageBox.Close)
+
+
+    def enableNewPassword(self):
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
+        self.cur = self.db.cursor()
+
+        new_pass = self.lineEdit_2.text()
+        confirm_pass = self.lineEdit_3.text()
+
+        if new_pass == confirm_pass:
+            self.cur.execute('''UPDATE user_password WHERE user_name = %s''', (MainLogin.lineEdit.text()))
+            self.db.commit()
+
+        else:
+            QMessageBox.warning(self, 'Warning', "Please enter a valid password", QMessageBox.Close)
+
+
 
 
 
