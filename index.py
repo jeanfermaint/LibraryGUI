@@ -1,16 +1,25 @@
+import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-import sys
+from PyQt5.uic import loadUiType
+from app_modules import *
 import MySQLdb
 import datetime
 from xlrd import *
 from xlsxwriter import *
-from PyQt5.uic import loadUiType
+
+
 
 
 ui,_ = loadUiType('testing.ui')
 login,_ = loadUiType('login.ui')
+
+# Database connection
+db_host = "localhost"
+db_name = "library"
+db_user = "root"
+db_password = "25061403"
 
 
 class MainLogin(QWidget, login):
@@ -18,9 +27,7 @@ class MainLogin(QWidget, login):
         QWidget.__init__(self)
         self.setupUi(self)
         self.pushButton.clicked.connect(self.handleLogin)
-        theme = open('themes/darkorange.css', 'r')
-        theme = theme.read()
-        self.setStyleSheet(theme)
+        Themes.darkOrangeTheme(self)
         self.pushButton_2.setStyleSheet(u"QPushButton { border: none;\n"
                                         "       background-color: #323232;}\n"
                                         "       QPushButton:hover { color: #ffaa00;}")
@@ -29,14 +36,14 @@ class MainLogin(QWidget, login):
                                         "       QPushButton:hover { color: #ffaa00;}")
 
     def handleLogin(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         username = self.lineEdit.text()
         password = self.lineEdit_2.text()
 
         self.cur.execute('''
-            SELECT * FROM user WHERE user_name=%s and user_password=%s
+            SELECT * FROM user WHERE user_name = %s and user_password = %s
             ''', (username, password))
         found = self.cur.fetchone()
         print(found)
@@ -57,7 +64,7 @@ class MainApp(QMainWindow, ui):
         self.setupUi(self)
         self.handleUIChanges()
         self.handleButtons()
-        self.darkOrangeTheme()
+        Themes.darkOrangeTheme(self)
 
         self.showSubject()
         self.showAuthor()
@@ -72,7 +79,7 @@ class MainApp(QMainWindow, ui):
     def handleLogout(self):
         self.mainLoginWindow = MainLogin()
         self.close()
-        QMessageBox.information(self,'Logout', "You have logged out successfully", QMessageBox.Close)
+        QMessageBox.information(self,'Logout', "You have been logged out successfully", QMessageBox.Close)
         self.mainLoginWindow.show()
 
     def handleUIChanges(self):
@@ -101,10 +108,10 @@ class MainApp(QMainWindow, ui):
         self.pushButton_13.clicked.connect(self.enableEditUser)
         self.pushButton_12.clicked.connect(self.editUser)
 
-        self.pushButton_18.clicked.connect(self.darkOrangeTheme)
-        self.pushButton_17.clicked.connect(self.darkBlueTheme)
-        self.pushButton_16.clicked.connect(self.darkGrayTheme)
-        self.pushButton_19.clicked.connect(self.qDarkTheme)
+        # self.pushButton_18.clicked.connect(Themes.darkOrangeTheme())
+        # self.pushButton_17.clicked.connect(self.darkBlueTheme)
+        # self.pushButton_16.clicked.connect(self.darkGrayTheme)
+        # self.pushButton_19.clicked.connect(self.qDarkTheme)
 
         self.pushButton_23.clicked.connect(self.addNewBorrower)
         self.pushButton_26.clicked.connect(self.searchBorrower)
@@ -157,7 +164,7 @@ class MainApp(QMainWindow, ui):
         today_date = datetime.date.today()
         to_date = today_date + datetime.timedelta(days=days_number)
 
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''
@@ -172,7 +179,7 @@ class MainApp(QMainWindow, ui):
         self.db.close()
 
     def showAllTransactions(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''SELECT book_name, borrower, type, date, to_date FROM day_transactions''')
@@ -198,7 +205,7 @@ class MainApp(QMainWindow, ui):
 
     def showAllBooks(self):
 
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''
@@ -220,7 +227,7 @@ class MainApp(QMainWindow, ui):
 
     def addNewBook(self):
 
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         book_title = self.lineEdit_5.text()
@@ -251,7 +258,7 @@ class MainApp(QMainWindow, ui):
         self.db.close()
 
     def searchBook(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         book_title = self.lineEdit_2.text()
@@ -272,7 +279,7 @@ class MainApp(QMainWindow, ui):
 
     def editBook(self):
 
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         book_title = self.lineEdit_6.text()
@@ -294,7 +301,7 @@ class MainApp(QMainWindow, ui):
         self.db.close()
 
     def deleteBook(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         book_title = self.lineEdit_2.text()
@@ -317,7 +324,7 @@ class MainApp(QMainWindow, ui):
     ################################################
 
     def showAllBorrowers(self):
-        self.db = MySQLdb.connect(host='localhost', user='lcs', password='root', db='library')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''
@@ -345,7 +352,7 @@ class MainApp(QMainWindow, ui):
         borrower_phone = self.lineEdit_30.text()
         borrower_ID = self.lineEdit_33.text()
 
-        self.db = MySQLdb.connect(host='localhost', user='lcs', password='root', db='library')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''
@@ -361,7 +368,7 @@ class MainApp(QMainWindow, ui):
     def searchBorrower(self):
         borrower_ID = self.lineEdit_41.text()
 
-        self.db = MySQLdb.connect(host='localhost', user='lcs', password='root', db='library')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         sql = ''' SELECT * FROM borrower WHERE borrower_ID = %s '''
@@ -377,7 +384,7 @@ class MainApp(QMainWindow, ui):
         self.db.close()
 
     def enableEditBorrower(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         username = self.lineEdit_39.text()
@@ -412,7 +419,7 @@ class MainApp(QMainWindow, ui):
         borrower_phone = self.lineEdit_43.text()
         borrower_ID = self.lineEdit_42.text()
 
-        self.db = MySQLdb.connect(host='localhost', user='root', password='toor', db='library')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         sql = ''' SELECT * FROM borrower WHERE borrower_ID = %s '''
@@ -441,7 +448,7 @@ class MainApp(QMainWindow, ui):
         warning = QMessageBox.warning(self, 'Delete Borrower', "Delete Borrower?", QMessageBox.Yes | QMessageBox.No)
 
         if warning == QMessageBox.Yes:
-            self.db = MySQLdb.connect(host='localhost', user='lcs', password='root', db='library')
+            self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
             self.cur = self.db.cursor()
 
             sql = ''' DELETE FROM borrower WHERE borrower_ID = %s '''
@@ -460,7 +467,7 @@ class MainApp(QMainWindow, ui):
 
     def addNewUser(self):
 
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         user_name = self.lineEdit_7.text()
@@ -487,7 +494,7 @@ class MainApp(QMainWindow, ui):
         self.db.close()
 
     def enableEditUser(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         username = self.lineEdit_17.text()
@@ -527,7 +534,7 @@ class MainApp(QMainWindow, ui):
         original_name = self.lineEdit_17.text()
 
         if password == retype:
-            self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+            self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
             self.cur = self.db.cursor()
 
             print(username)
@@ -557,7 +564,7 @@ class MainApp(QMainWindow, ui):
 
     def addSubject(self):
 
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         subject_name = self.lineEdit_19.text()
@@ -572,7 +579,7 @@ class MainApp(QMainWindow, ui):
         self.db.close()
 
     def showSubject(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''SELECT subject_name FROM subject''')
@@ -593,7 +600,7 @@ class MainApp(QMainWindow, ui):
 
     def addAuthor(self):
 
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         author_name = self.lineEdit_20.text()
@@ -608,7 +615,7 @@ class MainApp(QMainWindow, ui):
         self.db.close()
 
     def showAuthor(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''SELECT author_name FROM author''')
@@ -632,7 +639,7 @@ class MainApp(QMainWindow, ui):
     ################################################
 
     def showSubjBox(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''SELECT subject_name FROM subject''')
@@ -645,7 +652,7 @@ class MainApp(QMainWindow, ui):
         self.db.close()
 
     def showAuthorBox(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''SELECT author_name FROM author''')
@@ -662,7 +669,7 @@ class MainApp(QMainWindow, ui):
     ################################################
 
     def dayReport(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''
@@ -693,7 +700,7 @@ class MainApp(QMainWindow, ui):
         QMessageBox.information(self,'Done',"Report Created Successfully", QMessageBox.Ok)
 
     def bookReport(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''
@@ -725,7 +732,7 @@ class MainApp(QMainWindow, ui):
         QMessageBox.information(self, 'Done', "Book Report Created Successfully", QMessageBox.Ok)
 
     def borrowerReport(self):
-        self.db = MySQLdb.connect(host='localhost', db='library', user='lcs', password='root')
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''
@@ -754,36 +761,13 @@ class MainApp(QMainWindow, ui):
         self.statusBar().showMessage('Report Created Successfully')
         QMessageBox.information(self, 'Done', "Borrower Report Created Successfully", QMessageBox.Ok)
 
-    ################################################
-    ##################  UI Themes ##################
-    ################################################
-
-    def darkBlueTheme(self):
-        style = open('themes/darkblue.css', 'r')
-        style = style.read()
-        self.setStyleSheet(style)
-
-    def darkGrayTheme(self):
-        style = open('themes/darkgray.css', 'r')
-        style = style.read()
-        self.setStyleSheet(style)
-
-    def darkOrangeTheme(self):
-        style = open('themes/darkorange.css', 'r')
-        style = style.read()
-        self.setStyleSheet(style)
-
-    def qDarkTheme(self):
-        style = open('themes/qdark.css', 'r')
-        style = style.read()
-        self.setStyleSheet(style)
 
 def main():
     app = QApplication(sys.argv)
-    # window = MainApp()
-    window = MainLogin()
-    window.setFixedHeight(480)
-    window.setFixedWidth(480)
+    window = MainApp()
+    # window = MainLogin()
+    # window.setFixedHeight(480)
+    # window.setFixedWidth(480)
     window.show()
     app.exec_()
 
