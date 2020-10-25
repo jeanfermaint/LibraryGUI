@@ -177,7 +177,7 @@ class MainApp(QMainWindow, ui):
         QMessageBox.information(self,'Done', "New Transaction Completed", QMessageBox.Close)
 
         self.showAllTransactions()
-        self.db.close()
+        # self.db.close()
 
     def showAllTransactions(self):
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
@@ -198,7 +198,7 @@ class MainApp(QMainWindow, ui):
             row_pos = self.tableWidget.rowCount()
             self.tableWidget.insertRow(row_pos)
 
-        self.db.close()
+        # self.db.close()
 
     ################################################
     ################### Books ######################
@@ -224,7 +224,7 @@ class MainApp(QMainWindow, ui):
 
             row_pos = self.tableWidget_4.rowCount()
             self.tableWidget_4.insertRow(row_pos)
-        self.db.close()
+        # self.db.close()
 
     def addNewBook(self):
 
@@ -361,7 +361,7 @@ class MainApp(QMainWindow, ui):
                    VALUES (%s , %s , %s , %s)
                ''', (borrower_name, borrower_email, borrower_phone, borrower_ID))
         self.db.commit()
-        self.db.close()
+        # self.db.close()
         QMessageBox.information(self,'Done',"New Borrower Added", QMessageBox.Close)
         self.statusBar().showMessage('New Borrower Added')
         self.showAllBorrowers()
