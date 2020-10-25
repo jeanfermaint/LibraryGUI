@@ -100,11 +100,9 @@ class MainApp(QMainWindow, ui):
         self.handleButtons()
         Themes.darkOrangeTheme(self)
 
-        self.addAuthor()
-        self.addSubject()
+
         self.showSubject()
         self.showAuthor()
-
         self.showSubjBox()
         self.showAuthorBox()
 
@@ -194,19 +192,20 @@ class MainApp(QMainWindow, ui):
 
     def handleDayTransactions(self):
         book_title = self.lineEdit.text()
-        borrower_name = self.lineEdit23.text()
+        borrower_name = self.lineEdit_23.text()
         trans_type = self.comboBox.currentText()
-        days_number = self.comboBox_2.currentText()
+        days_number = self.comboBox_2.currentIndex() + 1
         today_date = datetime.date.today()
         to_date = today_date + datetime.timedelta(days=days_number)
+
+        print(book_title," checked out from: ", today_date, "to ", to_date)
 
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
-        self.cur.execute('''
-        INSERT INTO day_transactions(book_name, borrower, type, date, to_date) 
-        VALUES (%s , %s , %s , %s , %s , %s)
-        ''', (book_title,borrower_name,trans_type,days_number,to_date))
+        self.cur.execute('''INSERT INTO day_transactions(book_name, borrower, type, days, date, to_date) 
+            VALUES (%s , %s , %s , %s , %s , %s)
+        ''', (book_title,borrower_name,trans_type,days_number,today_date,to_date))
 
         self.db.commit()
         QMessageBox.information(self,'Done', "New Transaction Completed", QMessageBox.Close)
