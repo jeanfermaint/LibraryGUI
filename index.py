@@ -9,7 +9,7 @@ import datetime
 from xlrd import *
 from xlsxwriter import *
 
-
+from forgot_password import *
 
 
 ui,_ = loadUiType('testing.ui')
@@ -59,6 +59,7 @@ class MainLogin(QWidget, login):
             self.window_2.show()
 
         else:
+            QMessageBox.warning(self, 'Warning!', "Enter a valid Username & Password", QMessageBox.Close)
             self.label.setStyleSheet(u"QLabel { color: #ffaa00;}")
             self.label.setText('Enter a valid Username & Password')
 
@@ -66,7 +67,9 @@ class MainLogin(QWidget, login):
         pass
 
     def handleForgotPassword(self):
-        pass
+        self.forgot_pass_window = PasswordReset()
+        self.close()
+        self.forgot_pass_window.show()
 
 
 class MainApp(QMainWindow, ui):

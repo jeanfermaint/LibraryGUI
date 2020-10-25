@@ -17,6 +17,7 @@ class PasswordReset(QWidget, reset_pass):
 
         self.pushButton_3.clicked.connect(self.getResetCode)
         self.pushButton_4.clicked.connect(self.insertCode)
+        self.pushButton.clicked.connect(self.resetPassword)
 
 
 
@@ -49,7 +50,7 @@ class PasswordReset(QWidget, reset_pass):
             QMessageBox.warning(self, 'Warning!', "Invalid Code Entered", QMessageBox.Close)
 
 
-    def enableNewPassword(self):
+    def resetPassword(self):
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
@@ -57,8 +58,12 @@ class PasswordReset(QWidget, reset_pass):
         confirm_pass = self.lineEdit_3.text()
 
         if new_pass == confirm_pass:
-            self.cur.execute('''UPDATE user_password WHERE user_name = %s''', (MainLogin.lineEdit.text()))
+            self.cur.execute('''UPDATE user_password WHERE user_name = %s''', (lambda: MainLogin.lineEdit.text()))
             self.db.commit()
+            self.window_login = MainLogin()
+            self.close()
+            self.window_login.show()
+
 
         else:
             QMessageBox.warning(self, 'Warning', "Please enter a valid password", QMessageBox.Close)
