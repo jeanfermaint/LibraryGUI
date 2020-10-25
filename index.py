@@ -278,8 +278,11 @@ class MainApp(QMainWindow, ui):
         ''', (book_title, book_description, book_code, book_subject, book_author, book_price))
 
         self.db.commit()
-        QMessageBox.information(self,'Done',"New Book Added",QMessageBox.Close)
+        QMessageBox.information(self,'Done',"New Book Added", QMessageBox.Close)
         self.statusBar().showMessage('New Book Added')
+
+        self.addAuthor()
+        self.addSubject()
 
         self.lineEdit_5.setText('')         # book title
         self.textEdit.setPlainText('')      # book description
@@ -323,6 +326,7 @@ class MainApp(QMainWindow, ui):
         book_author = self.comboBox_4.currentText()
         book_price = self.lineEdit_22.text()
 
+
         search_book_title = self.lineEdit_2.text()
         self.cur.execute('''UPDATE book SET book_name=%s ,book_description=%s ,book_code=%s ,
             book_subject=%s ,book_author=%s ,book_price=%s WHERE book_name = %s
@@ -331,6 +335,13 @@ class MainApp(QMainWindow, ui):
         self.db.commit()
         QMessageBox.information(self,'Done',"Book Updated", QMessageBox.Close)
         self.statusBar().showMessage('Book Updated')
+
+        self.lineEdit_6.setText('')  # book title
+        self.textEdit_2.setPlainText('')  # book description
+        self.lineEdit_3.setText('')  # book code
+        self.comboBox_3.setCurrentIndex(0)  # book subjects
+        self.comboBox_4.setCurrentIndex(0)  # book authors
+        self.lineEdit_22.setText('')  # book price
         self.showAllBooks()
         # self.db.close()
 
@@ -348,7 +359,12 @@ class MainApp(QMainWindow, ui):
             self.db.commit()
             QMessageBox.information(self,'Done', "Book Deleted", QMessageBox.Close)
             self.statusBar().showMessage('Book Deleted')
-
+            self.lineEdit_6.setText('')  # book title
+            self.textEdit_2.setPlainText('')  # book description
+            self.lineEdit_3.setText('')  # book code
+            self.comboBox_3.setCurrentIndex(0)  # book subjects
+            self.comboBox_4.setCurrentIndex(0)  # book authors
+            self.lineEdit_22.setText('')  # book price
             self.showAllBooks()
 
         # self.db.close()
@@ -682,7 +698,6 @@ class MainApp(QMainWindow, ui):
         data = self.cur.fetchall()
 
         for subject in data:
-            #self.comboBox_5.addItem(subject[0])
             self.comboBox_3.addItem(subject[0])
 
         # self.db.close()
@@ -695,7 +710,6 @@ class MainApp(QMainWindow, ui):
         data = self.cur.fetchall()
 
         for author in data:
-            #self.comboBox_6.addItem(author[0])
             self.comboBox_4.addItem(author[0])
 
         # self.db.close()
