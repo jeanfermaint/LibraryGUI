@@ -304,10 +304,10 @@ class MainApp(QMainWindow, ui):
 
         print(data)
         self.lineEdit_6.setText(data[1])
-        self.textEdit_2.setPlainText(data[2])
-        self.lineEdit_3.setText(data[3])
-        self.comboBox_3.setCurrentText(data[4])
-        self.comboBox_4.setCurrentText(data[5])
+        self.textEdit_2.setPlainText(data[5])
+        self.lineEdit_3.setText(data[2])
+        self.comboBox_3.setCurrentText(data[3])
+        self.comboBox_4.setCurrentText(data[4])
         self.lineEdit_22.setText(str(data[6]))
         # self.db.close()
 
