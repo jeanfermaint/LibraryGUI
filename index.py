@@ -73,7 +73,7 @@ class MainApp(QMainWindow, ui):
         self.showSubjBox()
         self.showAuthorBox()
 
-        # self.showAllBorrowers()
+        self.showAllBorrowers()
         self.showAllBooks()
         # self.showAllTransactions()
 
@@ -329,7 +329,7 @@ class MainApp(QMainWindow, ui):
         self.cur = self.db.cursor()
 
         self.cur.execute('''
-            SELECT borrower_name , borrower_type , borrower_email , borrower_phone FROM borrower
+            SELECT borrower_name , borrower_ID , borrower_type , borrower_email , borrower_phone FROM borrower
         ''')
         data = self.cur.fetchall()
 
@@ -351,15 +351,16 @@ class MainApp(QMainWindow, ui):
         borrower_name = self.lineEdit_28.text()
         borrower_email = self.lineEdit_29.text()
         borrower_phone = self.lineEdit_30.text()
+        borrower_type = self.comboBox_7.currentText()
         borrower_ID = self.lineEdit_33.text()
 
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
         self.cur.execute('''
-                   INSERT INTO borrower(borrower_name , borrower_email , borrower_phone , borrower_ID)
-                   VALUES (%s , %s , %s , %s)
-               ''', (borrower_name, borrower_email, borrower_phone, borrower_ID))
+                   INSERT INTO borrower(borrower_name , borrower_email , borrower_phone , borrower_type , borrower_ID)
+                   VALUES (%s , %s , %s , %s , %s)
+               ''', (borrower_name, borrower_email, borrower_phone, borrower_type, borrower_ID))
         self.db.commit()
         # self.db.close()
         QMessageBox.information(self,'Done',"New Borrower Added", QMessageBox.Close)
