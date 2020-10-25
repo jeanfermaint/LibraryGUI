@@ -130,18 +130,14 @@
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>300</y>
-      <width>51</width>
+      <x>10</x>
+      <y>250</y>
+      <width>71</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="Icons/icon.qrc">
-      <normaloff>:/Icons/SettingsIcon.png</normaloff>:/Icons/SettingsIcon.png</iconset>
+     <string>Admin</string>
     </property>
     <property name="iconSize">
      <size>
@@ -2169,7 +2165,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>250</y>
+      <y>300</y>
       <width>71</width>
       <height>41</height>
      </rect>
