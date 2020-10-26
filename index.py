@@ -781,7 +781,7 @@ class MainApp(QMainWindow, ui):
         self.cur = self.db.cursor()
 
         self.cur.execute('''
-        SELECT book_name,book_code,book_subject,book_author,book_price,book_status
+        SELECT book_name,book_code,book_subject,book_author,book_price,book_description
          FROM book''')
 
         data = self.cur.fetchall()
@@ -794,7 +794,7 @@ class MainApp(QMainWindow, ui):
         sheet1.write(0, 2, 'book subject')
         sheet1.write(0, 3, 'book author')
         sheet1.write(0, 4, 'book price')
-        sheet1.write(0, 5, 'book status')
+        sheet1.write(0, 5, 'book description')
 
         row_num = 1
         for row in data:
@@ -813,7 +813,7 @@ class MainApp(QMainWindow, ui):
         self.cur = self.db.cursor()
 
         self.cur.execute('''
-        SELECT borrower_name,borrower_email,borrower_phone FROM borrower
+        SELECT borrower_name,borrower_email,borrower_phone,borrower_type,borrower_ID FROM borrower
         ''')
 
         data = self.cur.fetchall()
@@ -822,8 +822,11 @@ class MainApp(QMainWindow, ui):
         sheet1 = wb.add_worksheet()
 
         sheet1.write(0, 0, 'borrower name')
-        sheet1.write(0, 1, 'borrower email')
-        sheet1.write(0, 2, 'borrower phone')
+        sheet1.write(0, 1, 'borrower ID')
+        sheet1.write(0, 2, 'borrower email')
+        sheet1.write(0, 3, 'borrower phone')
+        sheet1.write(0, 4, 'borrower type')
+
 
 
         row_num = 1

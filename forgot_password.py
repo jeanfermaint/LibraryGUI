@@ -62,11 +62,13 @@ class PasswordReset(QWidget, reset_pass):
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
+        user_name = self.lineEdit_4.text()
         new_pass = self.lineEdit_2.text()
         confirm_pass = self.lineEdit_3.text()
 
         if new_pass == confirm_pass:
-            # self.cur.execute('''UPDATE user SET user_password = %s WHERE borrower_ID = %s''', (lambda: MainLogin())
+            self.cur.execute('''UPDATE user SET user_password = %s WHERE user_name = %s''', (new_pass,user_name))
+            # self.cur.execute('''UPDATE user SET user_password = %s WHERE user_name = %s''', (new_pass, lambda: MainLogin()))
             self.db.commit()
             self.window_login = MainLogin()
             self.close()
