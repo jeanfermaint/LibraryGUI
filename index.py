@@ -9,12 +9,9 @@ import datetime
 from xlrd import *
 from xlsxwriter import *
 
-from forgot_password import *
-
 
 ui,_ = loadUiType('testing.ui')
 login,_ = loadUiType('login.ui')
-forgot_password,_ = loadUiType('forgotpassword.ui')
 
 # Database connection
 db_host = "localhost"
@@ -64,17 +61,6 @@ class MainLogin(QWidget, login):
             self.close()
             self.window_2.show()
 
-        # if found:
-        #     print('User Match')
-        #     self.window_2 = MainApp()
-        #     self.close()
-        #     self.window_2.show()
-        #
-        # else:
-        #     QMessageBox.warning(self, 'Warning!', "Enter a valid Username & Password", QMessageBox.Close)
-        #     self.label.setStyleSheet(u"QLabel { color: #ffaa00;}")
-        #     self.label.setText('Enter a valid Username & Password')
-
     def handleForgotEmail(self):
         pass
         # self.forgot_email_window = ForgotEmail()
@@ -99,7 +85,6 @@ class MainApp(QMainWindow, ui):
         self.handleUIChanges()
         self.handleButtons()
         Themes.darkOrangeTheme(self)
-
 
         self.showSubject()
         self.showAuthor()
@@ -198,7 +183,7 @@ class MainApp(QMainWindow, ui):
         today_date = datetime.date.today()
         to_date = today_date + datetime.timedelta(days=days_number)
 
-        print(book_title," checked out from: ", today_date, "to ", to_date)
+        print(book_title, " checked out from: ", today_date, "to ", to_date)
 
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
@@ -459,17 +444,6 @@ class MainApp(QMainWindow, ui):
             self.statusBar().showMessage('Valid Username & Password')
             self.groupBox_9.setEnabled(True)
 
-        # if found:
-        #     print('User Match')
-        #     QMessageBox.information(self,'Done', "Edit Enabled", QMessageBox.Close)
-        #     self.statusBar().showMessage('Valid Username & Password')
-        #     self.groupBox_9.setEnabled(True)
-        #
-        # else:
-        #     self.statusBar().showMessage('Enter Valid Username & Password')
-        #     QMessageBox.warning(self, 'Invalid User or Password', "Please enter a valid Username & Password.",
-        #                         QMessageBox.Close, QMessageBox.Close)
-
         # self.db.close()
 
     def editBorrower(self):
@@ -515,7 +489,6 @@ class MainApp(QMainWindow, ui):
             self.cur.execute(sql, [(borrower_ID)])
 
             self.db.commit()
-            # self.db.close()
             QMessageBox.information(self, 'Done', "Borrower Deleted", QMessageBox.Close)
             self.statusBar().showMessage('Borrower Deleted')
             self.showAllBorrowers()
@@ -580,21 +553,6 @@ class MainApp(QMainWindow, ui):
             self.lineEdit_14.setText(found[4])
             self.lineEdit_13.setText(found[3])
             self.lineEdit_16.setText(found[2])
-
-        # if found:
-        #     print('User Match')
-        #     self.statusBar().showMessage('Valid Username & Password')
-        #     self.groupBox_5.setEnabled(True)
-        #
-        #     self.lineEdit_11.setText(found[1])
-        #     self.lineEdit_14.setText(found[4])
-        #     self.lineEdit_13.setText(found[3])
-        #     self.lineEdit_16.setText(found[2])
-        #
-        # else:
-        #     self.statusBar().showMessage('Enter Valid Username & Password')
-        #     QMessageBox.warning(self, 'Invalid User or Password', "Please enter a valid Username & Password.",
-        #                         QMessageBox.Close)
 
         # self.db.close()
 
@@ -827,8 +785,6 @@ class MainApp(QMainWindow, ui):
         sheet1.write(0, 3, 'borrower phone')
         sheet1.write(0, 4, 'borrower type')
 
-
-
         row_num = 1
         for row in data:
             column_num = 0
@@ -844,7 +800,6 @@ class MainApp(QMainWindow, ui):
 
 def main():
     app = QApplication(sys.argv)
-    # window = MainApp()
     window = MainLogin()
     window.setFixedHeight(480)
     window.setFixedWidth(480)

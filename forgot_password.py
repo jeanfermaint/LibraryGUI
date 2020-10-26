@@ -33,11 +33,17 @@ class PasswordReset(QWidget, reset_pass):
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
-        self.cur.execute('''SELECT reset_code FROM codes''')
-        codeFound = self.cur.fetchone()
+        if self.lineEdit_4.text() == "":
+            QMessageBox.warning(self, 'Error!', "Please enter a valid Username to reset password", QMessageBox.Close)
 
-        print(codeFound[0])
-        QMessageBox.information(self, 'Code Found', "Please enter the following code: " + codeFound[0], QMessageBox.Ok)
+        else:
+            self.cur.execute('''SELECT reset_code FROM codes''')
+            codeFound = self.cur.fetchone()
+
+            print(codeFound[0])
+            QMessageBox.information(self, 'Code Found', "Please enter the following code: " + codeFound[0],
+                                    QMessageBox.Ok)
+
 
 
 

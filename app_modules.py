@@ -12,3 +12,6 @@ from admin import *
 
 # Data Transfer
 from show_tables import *
+
+# forgot password page
+from forgot_password import *
