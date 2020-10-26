@@ -739,7 +739,7 @@ class MainApp(QMainWindow, ui):
         self.cur = self.db.cursor()
 
         self.cur.execute('''
-        SELECT book_name,book_code,book_subject,book_author,book_price,book_description
+        SELECT book_code,book_name,book_subject,book_author,book_price,book_description
          FROM book''')
 
         data = self.cur.fetchall()
@@ -771,7 +771,7 @@ class MainApp(QMainWindow, ui):
         self.cur = self.db.cursor()
 
         self.cur.execute('''
-        SELECT borrower_name,borrower_email,borrower_phone,borrower_type,borrower_ID FROM borrower
+        SELECT borrower_name,borrower_ID,borrower_email,borrower_phone,borrower_type FROM borrower
         ''')
 
         data = self.cur.fetchall()
