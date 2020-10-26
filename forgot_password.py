@@ -66,7 +66,7 @@ class PasswordReset(QWidget, reset_pass):
         confirm_pass = self.lineEdit_3.text()
 
         if new_pass == confirm_pass:
-            self.cur.execute('''UPDATE user_password WHERE user_name = %s''', (MainLogin.username))
+            # self.cur.execute('''UPDATE user SET user_password = %s WHERE borrower_ID = %s''', (lambda: MainLogin())
             self.db.commit()
             self.window_login = MainLogin()
             self.close()
