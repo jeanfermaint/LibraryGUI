@@ -290,6 +290,7 @@ class MainApp(QMainWindow, ui):
             self.cur.execute(search, [(book_search)])
             data = self.cur.fetchall()
             if data == None:
+                self.statusBar().showMessage("No Book Found")
                 QMessageBox.information(self, 'Not Found', "The book is not in the database.", QMessageBox.Close)
             else:
                 self.statusBar().showMessage("Book Found")
@@ -312,6 +313,7 @@ class MainApp(QMainWindow, ui):
             self.cur.execute(search, [(book_search)])
             data = self.cur.fetchall()
             if data == None:
+                self.statusBar().showMessage("No Book Found")
                 QMessageBox.information(self, 'Not Found', "The book is not in the database.", QMessageBox.Close)
             else:
                 self.statusBar().showMessage("Book Found")
@@ -334,6 +336,7 @@ class MainApp(QMainWindow, ui):
             self.cur.execute(search, [(book_search)])
             data = self.cur.fetchall()
             if data == None:
+                self.statusBar().showMessage("No Book Found")
                 QMessageBox.information(self, 'Not Found', "The book is not in the database.", QMessageBox.Close)
             else:
                 self.statusBar().showMessage("Book Found")
