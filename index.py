@@ -116,7 +116,8 @@ class MainApp(QMainWindow, ui):
         self.pushButton_4.clicked.connect(self.OpenSettingsTab)
 
         self.pushButton_8.clicked.connect(self.addNewBook)
-        self.pushButton_9.clicked.connect(self.searchBook)
+        self.pushButton_9.clicked.connect(self.editBook)
+        self.pushButton_34.clicked.connect(self.searchBook)
         self.pushButton_10.clicked.connect(self.editBook)
         self.pushButton_7.clicked.connect(self.deleteBook)
 
@@ -281,12 +282,89 @@ class MainApp(QMainWindow, ui):
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
-        book_title = self.lineEdit_2.text()
+        book_search = self.lineEdit_27.text()
 
+        if self.comboBox_11.currentText() == 'Title':
+
+            search = '''SELECT * FROM book WHERE book_name = %s'''
+            self.cur.execute(search, [(book_search)])
+            data = self.cur.fetchall()
+            if data == None:
+                QMessageBox.information(self, 'Not Found', "The book is not in the database.", QMessageBox.Close)
+            else:
+                self.statusBar().showMessage("Book Found")
+                print(data)
+                self.tableWidget_6.setRowCount(0)
+                self.tableWidget_6.insertRow(0)
+
+                for row, form in enumerate(data):
+                    for column, item in enumerate(form):
+                        self.tableWidget_6.setItem(row, column, QTableWidgetItem(str(item)))
+                        column += 1
+
+                    row_pos = self.tableWidget_6.rowCount()
+                    self.tableWidget_6.insertRow(row_pos)
+            # self.db.close()
+
+        elif self.comboBox_11.currentText() == 'Subject':
+
+            search = '''SELECT * FROM book WHERE book_subject = %s'''
+            self.cur.execute(search, [(book_search)])
+            data = self.cur.fetchall()
+            if data == None:
+                QMessageBox.information(self, 'Not Found', "The book is not in the database.", QMessageBox.Close)
+            else:
+                self.statusBar().showMessage("Book Found")
+                print(data)
+                self.tableWidget_6.setRowCount(0)
+                self.tableWidget_6.insertRow(0)
+
+                for row, form in enumerate(data):
+                    for column, item in enumerate(form):
+                        self.tableWidget_6.setItem(row, column, QTableWidgetItem(str(item)))
+                        column += 1
+
+                    row_pos = self.tableWidget_6.rowCount()
+                    self.tableWidget_6.insertRow(row_pos)
+            # self.db.close()
+
+        elif self.comboBox_11.currentText() == 'Author':
+
+            search = '''SELECT * FROM book WHERE book_author = %s'''
+            self.cur.execute(search, [(book_search)])
+            data = self.cur.fetchall()
+            if data == None:
+                QMessageBox.information(self, 'Not Found', "The book is not in the database.", QMessageBox.Close)
+            else:
+                self.statusBar().showMessage("Book Found")
+                print(data)
+                self.tableWidget_6.setRowCount(0)
+                self.tableWidget_6.insertRow(0)
+
+                for row, form in enumerate(data):
+                    for column, item in enumerate(form):
+                        self.tableWidget_6.setItem(row, column, QTableWidgetItem(str(item)))
+                        column += 1
+
+                    row_pos = self.tableWidget_6.rowCount()
+                    self.tableWidget_6.insertRow(row_pos)
+            # self.db.close()
+
+        else:
+            QMessageBox.warning(self, 'Attention!', "Please select one of the search criteria", QMessageBox.Close)
+
+
+
+    def editBook(self):
+
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
+        self.cur = self.db.cursor()
+
+        search_book_title = self.lineEdit_2.text()
         search = '''SELECT * FROM book WHERE book_name = %s'''
-        self.cur.execute(search, [(book_title)])
-
+        self.cur.execute(search, [(search_book_title)])
         data = self.cur.fetchone()
+
         if data == None:
             QMessageBox.information(self,'Not Found', "The book is not in the database.", QMessageBox.Close)
         else:
@@ -298,12 +376,6 @@ class MainApp(QMainWindow, ui):
             self.comboBox_3.setCurrentText(data[3])
             self.comboBox_4.setCurrentText(data[4])
             self.lineEdit_22.setText(str(data[6]))
-        # self.db.close()
-
-    def editBook(self):
-
-        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
-        self.cur = self.db.cursor()
 
         book_title = self.lineEdit_6.text()
         book_description = self.textEdit_2.toPlainText()
@@ -313,7 +385,7 @@ class MainApp(QMainWindow, ui):
         book_price = self.lineEdit_22.text()
 
 
-        search_book_title = self.lineEdit_2.text()
+
         self.cur.execute('''UPDATE book SET book_name=%s ,book_description=%s ,book_code=%s ,
             book_subject=%s ,book_author=%s ,book_price=%s WHERE book_name = %s
             ''', (book_title, book_description, book_code, book_subject, book_author, book_price, search_book_title))
