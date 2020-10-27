@@ -444,7 +444,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_8">
        <attribute name="title">
@@ -623,6 +623,11 @@
            <string>Book Price</string>
           </property>
          </column>
+         <column>
+          <property name="text">
+           <string>Book Status</string>
+          </property>
+         </column>
         </widget>
        </widget>
       </widget>
@@ -760,7 +765,7 @@
           </rect>
          </property>
          <property name="placeholderText">
-          <string>Search Box</string>
+          <string>Enter Book Title</string>
          </property>
         </widget>
         <widget class="QPushButton" name="pushButton_9">
@@ -831,36 +836,6 @@
            <height>21</height>
           </rect>
          </property>
-        </widget>
-        <widget class="QComboBox" name="comboBox_5">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>30</y>
-           <width>91</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <item>
-          <property name="text">
-           <string>Select one</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Title</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Subject</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Author</string>
-          </property>
-         </item>
         </widget>
        </widget>
       </widget>
@@ -1837,28 +1812,15 @@
       </property>
       <widget class="QWidget" name="tab_7">
        <attribute name="title">
-        <string>Subject</string>
+        <string>Display Subject / Author</string>
        </attribute>
-       <widget class="QPushButton" name="pushButton_14">
-        <property name="geometry">
-         <rect>
-          <x>460</x>
-          <y>40</y>
-          <width>121</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Add New Subject</string>
-        </property>
-       </widget>
        <widget class="QTableWidget" name="tableWidget_2">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>90</y>
-          <width>631</width>
-          <height>331</height>
+          <x>20</x>
+          <y>70</y>
+          <width>256</width>
+          <height>192</height>
          </rect>
         </property>
         <column>
@@ -1867,64 +1829,13 @@
          </property>
         </column>
        </widget>
-       <widget class="QLabel" name="label_24">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>40</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>New Subject</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineEdit_19">
-        <property name="geometry">
-         <rect>
-          <x>102</x>
-          <y>39</y>
-          <width>201</width>
-          <height>21</height>
-         </rect>
-        </property>
-       </widget>
-      </widget>
-      <widget class="QWidget" name="tab_9">
-       <attribute name="title">
-        <string>Author</string>
-       </attribute>
-       <widget class="QLineEdit" name="lineEdit_20">
-        <property name="geometry">
-         <rect>
-          <x>102</x>
-          <y>39</y>
-          <width>201</width>
-          <height>21</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_15">
-        <property name="geometry">
-         <rect>
-          <x>460</x>
-          <y>40</y>
-          <width>121</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Add New Author</string>
-        </property>
-       </widget>
        <widget class="QTableWidget" name="tableWidget_3">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>90</y>
-          <width>631</width>
-          <height>331</height>
+          <x>290</x>
+          <y>70</y>
+          <width>256</width>
+          <height>192</height>
          </rect>
         </property>
         <column>
@@ -1932,19 +1843,6 @@
           <string>Author Name</string>
          </property>
         </column>
-       </widget>
-       <widget class="QLabel" name="label_25">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>40</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>New Author</string>
-        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_14">

@@ -116,13 +116,13 @@ class MainApp(QMainWindow, ui):
         self.pushButton_4.clicked.connect(self.OpenSettingsTab)
 
         self.pushButton_8.clicked.connect(self.addNewBook)
-        self.pushButton_9.clicked.connect(self.editBook)
+        self.pushButton_9.clicked.connect(self.searchEditBook)
         self.pushButton_34.clicked.connect(self.searchBook)
         self.pushButton_10.clicked.connect(self.editBook)
         self.pushButton_7.clicked.connect(self.deleteBook)
 
-        self.pushButton_14.clicked.connect(self.addSubject)
-        self.pushButton_15.clicked.connect(self.addAuthor)
+        # self.pushButton_14.clicked.connect(self.addSubject)
+        # self.pushButton_15.clicked.connect(self.addAuthor)
 
         self.pushButton_11.clicked.connect(self.addNewUser)
         self.pushButton_13.clicked.connect(self.enableEditUser)
@@ -289,8 +289,8 @@ class MainApp(QMainWindow, ui):
             search = '''SELECT * FROM book WHERE book_name = %s'''
             self.cur.execute(search, [(book_search)])
             data = self.cur.fetchall()
-            if data == None:
-                self.statusBar().showMessage("No Book Found")
+            if data == ():
+                self.statusBar().showMessage("None")
                 QMessageBox.information(self, 'Not Found', "The book is not in the database.", QMessageBox.Close)
             else:
                 self.statusBar().showMessage("Book Found")
@@ -312,9 +312,9 @@ class MainApp(QMainWindow, ui):
             search = '''SELECT * FROM book WHERE book_subject = %s'''
             self.cur.execute(search, [(book_search)])
             data = self.cur.fetchall()
-            if data == None:
+            if data == ():
                 self.statusBar().showMessage("No Book Found")
-                QMessageBox.information(self, 'Not Found', "The book is not in the database.", QMessageBox.Close)
+                QMessageBox.information(self, 'Not Found', "The Subject is not in the database.", QMessageBox.Close)
             else:
                 self.statusBar().showMessage("Book Found")
                 print(data)
@@ -335,9 +335,9 @@ class MainApp(QMainWindow, ui):
             search = '''SELECT * FROM book WHERE book_author = %s'''
             self.cur.execute(search, [(book_search)])
             data = self.cur.fetchall()
-            if data == None:
+            if data == ():
                 self.statusBar().showMessage("No Book Found")
-                QMessageBox.information(self, 'Not Found', "The book is not in the database.", QMessageBox.Close)
+                QMessageBox.information(self, 'Not Found', "The Author is not in the database.", QMessageBox.Close)
             else:
                 self.statusBar().showMessage("Book Found")
                 print(data)
@@ -354,12 +354,11 @@ class MainApp(QMainWindow, ui):
             # self.db.close()
 
         else:
-            QMessageBox.warning(self, 'Attention!', "Please select one of the search criteria", QMessageBox.Close)
+            QMessageBox.warning(self, 'Attention!', "Please select a search criteria", QMessageBox.Close)
 
 
 
-    def editBook(self):
-
+    def searchEditBook(self):
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
@@ -380,14 +379,18 @@ class MainApp(QMainWindow, ui):
             self.comboBox_4.setCurrentText(data[4])
             self.lineEdit_22.setText(str(data[6]))
 
+
+    def editBook(self):
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
+        self.cur = self.db.cursor()
+
+        search_book_title = self.lineEdit_2.text()
         book_title = self.lineEdit_6.text()
         book_description = self.textEdit_2.toPlainText()
         book_code = self.lineEdit_3.text()
         book_subject = self.comboBox_3.currentText()
         book_author = self.comboBox_4.currentText()
         book_price = self.lineEdit_22.text()
-
-
 
         self.cur.execute('''UPDATE book SET book_name=%s ,book_description=%s ,book_code=%s ,
             book_subject=%s ,book_author=%s ,book_price=%s WHERE book_name = %s
@@ -670,28 +673,12 @@ class MainApp(QMainWindow, ui):
     #################### Admin #####################
     ################################################
 
-    def addSubject(self):
-
-        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
-        self.cur = self.db.cursor()
-
-        subject_name = self.lineEdit_19.text()
-
-        self.cur.execute('''INSERT INTO subject (subject_name) VALUES ("%s")''', (subject_name,))
-
-        self.db.commit()
-        QMessageBox.information(self,'Done', "New Subject Added", QMessageBox.Ok)
-        self.statusBar().showMessage('New Subject Added')
-        self.lineEdit_19.setText('')
-        self.showSubject()
-        self.showSubjBox()
-        # self.db.close()
-
     def showSubject(self):
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
-        self.cur.execute('''SELECT subject_name FROM subject''')
+        search = '''SELECT book_subject FROM book'''
+        self.cur.execute(search)
         data = self.cur.fetchall()
 
         if data:
@@ -707,28 +694,12 @@ class MainApp(QMainWindow, ui):
 
         # self.db.close()
 
-    def addAuthor(self):
-
-        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
-        self.cur = self.db.cursor()
-
-        author_name = self.lineEdit_20.text()
-
-        self.cur.execute('''INSERT INTO author (author_name) VALUES ("%s")''', (author_name,))
-
-        self.db.commit()
-        QMessageBox.information(self,'Done',"New Author Added", QMessageBox.Ok)
-        self.statusBar().showMessage('New Author Added')
-        self.lineEdit_20.setText('')
-        self.showAuthor()
-        self.showAuthorBox()
-        # self.db.close()
-
     def showAuthor(self):
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
-        self.cur.execute('''SELECT author_name FROM author''')
+        search = '''SELECT book_author FROM book'''
+        self.cur.execute(search)
         data = self.cur.fetchall()
 
         if data:
@@ -752,7 +723,7 @@ class MainApp(QMainWindow, ui):
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
-        self.cur.execute('''SELECT subject_name FROM subject''')
+        self.cur.execute('''SELECT book_subject FROM book''')
         data = self.cur.fetchall()
 
         self.comboBox_3.clear()
@@ -765,7 +736,7 @@ class MainApp(QMainWindow, ui):
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
-        self.cur.execute('''SELECT author_name FROM author''')
+        self.cur.execute('''SELECT book_author FROM book''')
         data = self.cur.fetchall()
 
         self.comboBox_4.clear()
