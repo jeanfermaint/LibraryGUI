@@ -177,6 +177,9 @@ class MainApp(QMainWindow, ui):
     ################################################
 
     def handleDayTransactions(self):
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
+        self.cur = self.db.cursor()
+
         book_title = self.lineEdit.text()
         borrower_name = self.lineEdit_23.text()
         trans_type = self.comboBox.currentText()
@@ -184,10 +187,21 @@ class MainApp(QMainWindow, ui):
         today_date = datetime.date.today()
         to_date = today_date + datetime.timedelta(days=days_number)
 
-        print(book_title, " checked out from: ", today_date, "to ", to_date)
+        if trans_type == 'Check Out':
+            self.cur.execute('''UPDATE book SET book_status = %s WHERE book_name = %s''', (trans_type, book_title))
+            print(book_title, " checked out from: ", today_date, "to ", to_date)
 
-        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
-        self.cur = self.db.cursor()
+        elif trans_type == 'Check In':
+            self.cur.execute('''UPDATE book SET book_status = %s WHERE book_name = %s''', (trans_type, book_title))
+            print(book_title, " checked in: ", today_date)
+
+        elif trans_type == 'Renew':
+            self.cur.execute('''UPDATE book SET book_status = %s WHERE book_name = %s''', (trans_type, book_title))
+            print(book_title, " renewed from: ", today_date, "to ", to_date)
+
+        elif trans_type == 'Hold':
+            self.cur.execute('''UPDATE book SET book_status = %s WHERE book_name = %s''', (trans_type, book_title))
+            print(book_title, " on hold: ", today_date)
 
         self.cur.execute('''INSERT INTO day_transactions(book_name, borrower, type, days, date, to_date) 
             VALUES (%s , %s , %s , %s , %s , %s)
@@ -283,8 +297,9 @@ class MainApp(QMainWindow, ui):
         self.cur = self.db.cursor()
 
         book_search = self.lineEdit_27.text()
+        search_criteria = self.comboBox_11.currentText()
 
-        if self.comboBox_11.currentText() == 'Title':
+        if search_criteria == 'Title':
 
             search = '''SELECT * FROM book WHERE book_name = %s'''
             self.cur.execute(search, [(book_search)])
@@ -307,7 +322,7 @@ class MainApp(QMainWindow, ui):
                     self.tableWidget_6.insertRow(row_pos)
             # self.db.close()
 
-        elif self.comboBox_11.currentText() == 'Subject':
+        elif search_criteria == 'Subject':
 
             search = '''SELECT * FROM book WHERE book_subject = %s'''
             self.cur.execute(search, [(book_search)])
@@ -330,7 +345,7 @@ class MainApp(QMainWindow, ui):
                     self.tableWidget_6.insertRow(row_pos)
             # self.db.close()
 
-        elif self.comboBox_11.currentText() == 'Author':
+        elif search_criteria == 'Author':
 
             search = '''SELECT * FROM book WHERE book_author = %s'''
             self.cur.execute(search, [(book_search)])
