@@ -138,6 +138,9 @@ class MainApp(QMainWindow, ui):
         self.pushButton_25.clicked.connect(self.enableEditBorrower)
         self.pushButton_24.clicked.connect(self.editBorrower)
         self.pushButton_27.clicked.connect(self.deleteBorrower)
+        self.pushButton_31.clicked.connect(self.searchEditBorrower)
+
+
 
         self.pushButton_6.clicked.connect(self.handleDayTransactions)
 
@@ -537,6 +540,24 @@ class MainApp(QMainWindow, ui):
             self.statusBar().showMessage('Valid Username & Password')
             self.groupBox_9.setEnabled(True)
 
+        # self.db.close()
+
+    def searchEditBorrower(self):
+        borrower_ID = self.lineEdit_45.text()
+
+        self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
+        self.cur = self.db.cursor()
+
+        sql = ''' SELECT * FROM borrower WHERE borrower_ID = %s '''
+        self.cur.execute(sql, [(borrower_ID)])
+        data = self.cur.fetchone()
+        print(data[5])
+
+        self.lineEdit_44.setText(data[1])
+        self.lineEdit_38.setText(data[2])
+        self.lineEdit_43.setText(data[3])
+        self.lineEdit_42.setText(data[5])
+        self.comboBox_9.setCurrentText(data[4])
         # self.db.close()
 
     def editBorrower(self):

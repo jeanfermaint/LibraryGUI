@@ -164,7 +164,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <property name="iconSize">
      <size>
@@ -858,7 +858,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -1350,6 +1350,9 @@
            <height>20</height>
           </rect>
          </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
         </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_9">
@@ -1413,7 +1416,7 @@
           </rect>
          </property>
          <property name="echoMode">
-          <enum>QLineEdit::Password</enum>
+          <enum>QLineEdit::Normal</enum>
          </property>
         </widget>
         <widget class="QLabel" name="label_53">
@@ -1478,7 +1481,7 @@
           </rect>
          </property>
          <property name="echoMode">
-          <enum>QLineEdit::Password</enum>
+          <enum>QLineEdit::Normal</enum>
          </property>
         </widget>
         <widget class="QComboBox" name="comboBox_9">
