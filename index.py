@@ -186,7 +186,11 @@ class MainApp(QMainWindow, ui):
         book_title = self.lineEdit.text()
         borrower_name = self.lineEdit_23.text()
         trans_type = self.comboBox.currentText()
-        days_number = self.comboBox_2.currentIndex() + 1
+        days_number = self.comboBox_2.currentText()
+        if days_number == '21':
+            days_number = 21
+        else:
+            days_number = 0
         today_date = datetime.date.today()
         to_date = today_date + datetime.timedelta(days=days_number)
 
@@ -304,7 +308,8 @@ class MainApp(QMainWindow, ui):
 
         if search_criteria == 'Title':
 
-            search = '''SELECT * FROM book WHERE book_name = %s'''
+            search = '''SELECT book_code, book_name,book_subject,book_author,book_price,book_status
+            FROM book WHERE book_name = %s'''
             self.cur.execute(search, [(book_search)])
             data = self.cur.fetchall()
             if data == ():
@@ -327,7 +332,8 @@ class MainApp(QMainWindow, ui):
 
         elif search_criteria == 'Subject':
 
-            search = '''SELECT * FROM book WHERE book_subject = %s'''
+            search = '''SELECT book_code, book_name,book_subject,book_author,book_price,book_status
+            FROM book WHERE book_subject = %s'''
             self.cur.execute(search, [(book_search)])
             data = self.cur.fetchall()
             if data == ():
@@ -350,7 +356,8 @@ class MainApp(QMainWindow, ui):
 
         elif search_criteria == 'Author':
 
-            search = '''SELECT * FROM book WHERE book_author = %s'''
+            search = '''SELECT book_code, book_name,book_subject,book_author,book_price,book_status
+            FROM book WHERE book_author = %s'''
             self.cur.execute(search, [(book_search)])
             data = self.cur.fetchall()
             if data == ():
@@ -389,7 +396,7 @@ class MainApp(QMainWindow, ui):
             QMessageBox.information(self,'Not Found', "The book is not in the database.", QMessageBox.Close)
         else:
             self.statusBar().showMessage("Book Found")
-            print(data)
+            print(data[1:])
             self.lineEdit_6.setText(data[1])
             self.textEdit_2.setPlainText(data[5])
             self.lineEdit_3.setText(data[2])
