@@ -50,7 +50,6 @@ class MainLogin(QWidget, login):
         print(found)
 
         if found == None:
-
             QMessageBox.warning(self, 'Warning!', "Enter a valid Username & Password", QMessageBox.Close)
             self.label.setStyleSheet(u"QLabel { color: #ffaa00;}")
             self.label.setText('Enter a valid Username & Password')
@@ -68,7 +67,6 @@ class MainLogin(QWidget, login):
         # self.forgot_email_window.show()
 
     def handleForgotPassword(self):
-
         if self.lineEdit.text() == "":
             QMessageBox.warning(self, 'Error!', "Please enter a valid Username to reset password", QMessageBox.Close)
 
@@ -120,9 +118,6 @@ class MainApp(QMainWindow, ui):
         self.pushButton_34.clicked.connect(self.searchBook)
         self.pushButton_10.clicked.connect(self.editBook)
         self.pushButton_7.clicked.connect(self.deleteBook)
-
-        # self.pushButton_14.clicked.connect(self.addSubject)
-        # self.pushButton_15.clicked.connect(self.addAuthor)
 
         self.pushButton_11.clicked.connect(self.addNewUser)
         self.pushButton_13.clicked.connect(self.enableEditUser)
@@ -251,7 +246,6 @@ class MainApp(QMainWindow, ui):
     ################################################
 
     def showAllBooks(self):
-
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
@@ -273,7 +267,6 @@ class MainApp(QMainWindow, ui):
         # self.db.close()
 
     def addNewBook(self):
-
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
@@ -283,7 +276,6 @@ class MainApp(QMainWindow, ui):
         book_author = self.lineEdit_25.text()
         book_description = self.textEdit.toPlainText()
         book_price = self.lineEdit_21.text()
-
 
         self.cur.execute('''
             INSERT INTO book (book_name,book_description,book_code,book_subject,book_author,book_price)
@@ -312,14 +304,15 @@ class MainApp(QMainWindow, ui):
         search_criteria = self.comboBox_11.currentText()
 
         if search_criteria == 'Title':
-
             search = '''SELECT book_code, book_name,book_subject,book_author,book_price,book_status
             FROM book WHERE book_name = %s'''
             self.cur.execute(search, [(book_search)])
             data = self.cur.fetchall()
+
             if data == ():
                 self.statusBar().showMessage("None")
                 QMessageBox.information(self, 'Not Found', "The book is not in the database.", QMessageBox.Close)
+
             else:
                 self.statusBar().showMessage("Book Found")
                 print(data)
@@ -336,14 +329,15 @@ class MainApp(QMainWindow, ui):
             # self.db.close()
 
         elif search_criteria == 'Subject':
-
             search = '''SELECT book_code, book_name,book_subject,book_author,book_price,book_status
             FROM book WHERE book_subject = %s'''
             self.cur.execute(search, [(book_search)])
             data = self.cur.fetchall()
+
             if data == ():
                 self.statusBar().showMessage("No Book Found")
                 QMessageBox.information(self, 'Not Found', "The Subject is not in the database.", QMessageBox.Close)
+
             else:
                 self.statusBar().showMessage("Book Found")
                 print(data)
@@ -360,14 +354,15 @@ class MainApp(QMainWindow, ui):
             # self.db.close()
 
         elif search_criteria == 'Author':
-
             search = '''SELECT book_code, book_name,book_subject,book_author,book_price,book_status
             FROM book WHERE book_author = %s'''
             self.cur.execute(search, [(book_search)])
             data = self.cur.fetchall()
+
             if data == ():
                 self.statusBar().showMessage("No Book Found")
                 QMessageBox.information(self, 'Not Found', "The Author is not in the database.", QMessageBox.Close)
+
             else:
                 self.statusBar().showMessage("Book Found")
                 print(data)
@@ -399,6 +394,7 @@ class MainApp(QMainWindow, ui):
 
         if data == None:
             QMessageBox.information(self,'Not Found', "The book is not in the database.", QMessageBox.Close)
+
         else:
             self.statusBar().showMessage("Book Found")
             print(data[1:])
@@ -625,7 +621,6 @@ class MainApp(QMainWindow, ui):
     ################################################
 
     def addNewUser(self):
-
         self.db = MySQLdb.connect(host=db_host, db=db_name, user=db_user, password=db_password)
         self.cur = self.db.cursor()
 
@@ -683,7 +678,6 @@ class MainApp(QMainWindow, ui):
         # self.db.close()
 
     def editUser(self):
-
         username = self.lineEdit_11.text()
         password = self.lineEdit_14.text()
         retype = self.lineEdit_12.text()
