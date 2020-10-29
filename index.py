@@ -194,28 +194,33 @@ class MainApp(QMainWindow, ui):
         today_date = datetime.date.today()
         to_date = today_date + datetime.timedelta(days=days_number)
 
-        if trans_type == 'Check Out':
-            self.cur.execute('''UPDATE book SET book_status = %s WHERE book_name = %s''', (trans_type, book_title))
-            print(book_title, " checked out from: ", today_date, "to ", to_date)
+        if trans_type == 'Check Out' or trans_type == 'Renew' or trans_type == 'Hold':
+            search = '''SELECT book_status FROM book WHERE book_name = %s'''
+            self.cur.execute(search, [(book_title)])
+            status = self.cur.fetchone()
+            print(status)
+            if status[0] == 'Check Out' or status[0] == 'Renew' or status[0] == 'Hold':
+
+                QMessageBox.information(self,'Book Status', "Current Book Selected is not available to rent", QMessageBox.Close)
+            else: #status == 'Check In':
+                self.cur.execute('''UPDATE book SET book_status = %s WHERE book_name = %s''', (trans_type, book_title))
+                print(book_title, " checked out from: ", today_date, "to ", to_date)
+                self.cur.execute('''INSERT INTO day_transactions(book_name, borrower, type, days, date, to_date)
+                    VALUES (%s , %s , %s , %s , %s , %s)
+                ''', (book_title, borrower_name, trans_type, days_number, today_date, to_date))
+
+                self.db.commit()
+                QMessageBox.information(self, 'Done', "Transaction Completed", QMessageBox.Close)
 
         elif trans_type == 'Check In':
             self.cur.execute('''UPDATE book SET book_status = %s WHERE book_name = %s''', (trans_type, book_title))
             print(book_title, " checked in: ", today_date)
+            self.cur.execute('''INSERT INTO day_transactions(book_name, borrower, type, days, date, to_date)
+                VALUES (%s , %s , %s , %s , %s , %s)
+            ''', (book_title, borrower_name, trans_type, days_number, today_date, to_date))
 
-        elif trans_type == 'Renew':
-            self.cur.execute('''UPDATE book SET book_status = %s WHERE book_name = %s''', (trans_type, book_title))
-            print(book_title, " renewed from: ", today_date, "to ", to_date)
-
-        elif trans_type == 'Hold':
-            self.cur.execute('''UPDATE book SET book_status = %s WHERE book_name = %s''', (trans_type, book_title))
-            print(book_title, " on hold: ", today_date)
-
-        self.cur.execute('''INSERT INTO day_transactions(book_name, borrower, type, days, date, to_date) 
-            VALUES (%s , %s , %s , %s , %s , %s)
-        ''', (book_title,borrower_name,trans_type,days_number,today_date,to_date))
-
-        self.db.commit()
-        QMessageBox.information(self,'Done', "New Transaction Completed", QMessageBox.Close)
+            self.db.commit()
+            QMessageBox.information(self, 'Done', "Check In Completed", QMessageBox.Close)
 
         self.showAllTransactions()
         # self.db.close()
